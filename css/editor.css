@@ -1,0 +1,49 @@
+/* Styles nur für den internen Bearbeitungsbereich */
+.editor-shell{ max-width:980px; margin:0 auto; padding:40px 24px 100px; }
+.editor-header{
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+  flex-wrap:wrap; margin-bottom:28px;
+}
+.editor-header h1{ font-size:1.6rem; margin:0; }
+.editor-warning{
+  background:#FFF1DE; border:1px solid var(--orange); color:var(--brown);
+  border-radius:var(--radius-sm); padding:14px 18px; font-size:.92rem; margin-bottom:26px;
+}
+.editor-toolbar{
+  position:sticky; top:0; z-index:20;
+  background:var(--brown); color:var(--cream);
+  padding:14px 24px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+  border-radius:0 0 var(--radius-md) var(--radius-md);
+  margin-bottom:30px;
+}
+.editor-toolbar .status{ font-size:.85rem; opacity:.8; margin-left:auto; }
+.tabs{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px; }
+.tab-btn{
+  padding:9px 16px; border-radius:999px; border:1.5px solid var(--line);
+  background:var(--paper); font-weight:700; font-size:.88rem; color:var(--brown-soft);
+}
+.tab-btn.active{ background:var(--orange); border-color:var(--orange); color:#fff; }
+.tab-panel{ display:none; }
+.tab-panel.active{ display:block; }
+.edit-block{
+  background:var(--paper); border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:24px; margin-bottom:22px; box-shadow:var(--shadow-soft);
+}
+.edit-block h2{ font-size:1.15rem; margin-bottom:16px; }
+.edit-block .field-row{ margin-bottom:16px; }
+.edit-block .field-row:last-child{ margin-bottom:0; }
+.edit-item{
+  border:1px dashed var(--line); border-radius:var(--radius-sm);
+  padding:16px 16px 18px; margin-bottom:14px; background:var(--cream);
+}
+.edit-item-head{
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;
+}
+.mini-btn{
+  border-radius:999px; padding:7px 14px; font-size:.82rem; font-weight:700;
+  background:var(--sand); border:1px solid var(--line); color:var(--brown);
+}
+.mini-btn.danger{ background:#FBE3DA; border-color:#E8A98E; color:#8A3312; }
+.mini-btn.primary{ background:var(--orange); border-color:var(--orange); color:#fff; }
+.field-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media (max-width:700px){ .field-grid-2{ grid-template-columns:1fr; } }

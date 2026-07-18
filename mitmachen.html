@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mitmachen — Evangelische Jugend Wendelstein</title>
+<link rel="icon" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Caveat:wght@600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="site-header-mount"></header>
+
+<main>
+  <section class="page-banner bg-paper">
+    <div class="container">
+      <p class="eyebrow" id="eyebrow"></p>
+      <h1><span class="swoosh" id="title"></span></h1>
+      <p class="lead" id="lead"></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="grid grid-2" id="ways"></div>
+    </div>
+  </section>
+
+  <section class="bg-sand">
+    <div class="container" style="max-width:680px;">
+      <h2 id="form-title" class="center"></h2>
+      <p class="center" id="form-intro"></p>
+      <form class="form-grid" onsubmit="event.preventDefault(); alert('Danke! (Dies ist ein Platzhalter-Formular ohne Versand-Anbindung.)');">
+        <div>
+          <label for="mm-name">Name</label>
+          <input id="mm-name" type="text" required>
+        </div>
+        <div>
+          <label for="mm-email">E-Mail</label>
+          <input id="mm-email" type="email" required>
+        </div>
+        <div>
+          <label for="mm-interesse">Woran hast du Interesse?</label>
+          <select id="mm-interesse">
+            <option>Gruppenstunde besuchen</option>
+            <option>Freizeit mitfahren</option>
+            <option>Teamer werden</option>
+            <option>Ehrenamtlich mitarbeiten</option>
+            <option>Sonstiges</option>
+          </select>
+        </div>
+        <div>
+          <label for="mm-nachricht">Nachricht</label>
+          <textarea id="mm-nachricht" placeholder="Erzähl uns kurz von dir…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Absenden</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer-mount"></footer>
+
+<script src="js/main.js"></script>
+<script>
+ejwInit("mitmachen.html", "", (content) => {
+  const m = content.mitmachen;
+  document.getElementById("eyebrow").textContent = m.eyebrow;
+  document.getElementById("title").textContent = m.title;
+  document.getElementById("lead").textContent = m.lead;
+  document.getElementById("ways").innerHTML = m.ways.map(w => `
+    <div class="card"><h3>${w.title}</h3><p>${w.text}</p></div>
+  `).join("");
+  document.getElementById("form-title").textContent = m.form_title;
+  document.getElementById("form-intro").textContent = m.form_intro;
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Über uns — Evangelische Jugend Wendelstein</title>
+<link rel="icon" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Caveat:wght@600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="site-header-mount"></header>
+
+<main>
+  <section class="page-banner bg-paper">
+    <div class="container">
+      <p class="eyebrow" id="eyebrow"></p>
+      <h1><span class="swoosh" id="title"></span></h1>
+      <p class="lead" id="lead"></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container contact-grid">
+      <div>
+        <h2 id="story-title"></h2>
+        <p id="story-text"></p>
+      </div>
+      <div class="hero-art" style="aspect-ratio:4/3;">
+        <img src="images/logo.png" alt="" style="width:44%;">
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sand">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow" id="values-eyebrow" style="justify-content:center"></p>
+        <h2 id="values-title"></h2>
+      </div>
+      <div class="grid grid-3" id="values"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow" id="team-eyebrow" style="justify-content:center"></p>
+        <h2 id="team-title"></h2>
+      </div>
+      <div class="grid grid-3" id="team" style="row-gap:40px;"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer-mount"></footer>
+
+<script src="js/main.js"></script>
+<script>
+ejwInit("ueber-uns.html", "", (content) => {
+  const u = content.ueberUns;
+  document.getElementById("eyebrow").textContent = u.eyebrow;
+  document.getElementById("title").textContent = u.title;
+  document.getElementById("lead").textContent = u.lead;
+  document.getElementById("story-title").textContent = u.story_title;
+  document.getElementById("story-text").textContent = u.story_text;
+  document.getElementById("values-eyebrow").textContent = u.values_eyebrow;
+  document.getElementById("values-title").textContent = u.values_title;
+  document.getElementById("values").innerHTML = u.values.map(v => `
+    <div class="card"><h3>${v.title}</h3><p>${v.text}</p></div>
+  `).join("");
+  document.getElementById("team-eyebrow").textContent = u.team_eyebrow;
+  document.getElementById("team-title").textContent = u.team_title;
+  document.getElementById("team").innerHTML = u.team.map(m => `
+    <div class="team-member">
+      <div class="photo">${m.name.split(" ").map(n=>n[0]).join("")}</div>
+      <h3>${m.name}</h3>
+      <span class="role">${m.role}</span>
+      <p>${m.bio}</p>
+    </div>
+  `).join("");
+});
+</script>
+</body>
+</html>

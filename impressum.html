@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Impressum — Evangelische Jugend Wendelstein</title>
+<link rel="icon" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Caveat:wght@600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="site-header-mount"></header>
+
+<main>
+  <section class="page-banner bg-paper">
+    <div class="container">
+      <h1 id="title"></h1>
+    </div>
+  </section>
+  <section>
+    <div class="container" style="max-width:720px;">
+      <p id="body-text" style="white-space:pre-line;color:var(--brown-soft);"></p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer-mount"></footer>
+
+<script src="js/main.js"></script>
+<script>
+ejwInit("impressum.html", "", (content) => {
+  document.getElementById("title").textContent = content.impressum.title;
+  document.getElementById("body-text").textContent = content.impressum.body;
+});
+</script>
+</body>
+</html>

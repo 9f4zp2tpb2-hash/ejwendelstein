@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evangelische Jugend Wendelstein</title>
+<meta name="description" content="Die Evangelische Jugend Wendelstein — Gruppen, Freizeiten und Aktionen für Kinder, Jugendliche und junge Erwachsene.">
+<link rel="icon" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Caveat:wght@600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="site-header-mount"></header>
+
+<main>
+  <section class="hero">
+    <img class="hero-cross" src="images/logo.png" alt="" aria-hidden="true">
+    <div class="container">
+      <div>
+        <p class="eyebrow" id="hero-eyebrow"></p>
+        <h1><span class="swoosh" id="hero-title"></span></h1>
+        <p class="lead" id="hero-lead"></p>
+        <div class="hero-actions">
+          <a href="termine.html" class="btn btn-primary" id="hero-cta-primary"></a>
+          <a href="ueber-uns.html" class="btn btn-outline" id="hero-cta-secondary"></a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img src="images/logo.png" alt="Logo der Evangelischen Jugend Wendelstein">
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-paper">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow" id="intro-eyebrow" style="justify-content:center"></p>
+        <h2 id="intro-title"></h2>
+      </div>
+      <div class="grid grid-3" id="offer-cards"></div>
+    </div>
+  </section>
+
+  <section class="statement bg-brown">
+    <div class="container">
+      <blockquote>
+        „<span id="statement-quote"></span>“
+      </blockquote>
+      <cite id="statement-cite"></cite>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow" id="events-eyebrow"></p>
+        <h2 id="events-title"></h2>
+      </div>
+      <div class="grid grid-3" id="events-preview" style="margin-bottom:36px;"></div>
+      <p class="center"><a href="termine.html" class="btn btn-outline" id="events-cta"></a></p>
+    </div>
+  </section>
+
+  <section class="bg-sand">
+    <div class="container">
+      <div class="cta-banner">
+        <div>
+          <h2 id="cta-title"></h2>
+          <p id="cta-text"></p>
+        </div>
+        <a href="kontakt.html" class="btn btn-outline on-dark" style="border-color:#fff;color:#fff;" id="cta-button"></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer-mount"></footer>
+
+<script src="js/main.js"></script>
+<script>
+ejwInit("index.html", "", (content) => {
+  const h = content.home;
+
+  document.getElementById("hero-eyebrow").textContent = h.hero_eyebrow;
+  document.getElementById("hero-title").textContent = h.hero_title;
+  document.getElementById("hero-lead").textContent = h.hero_lead;
+  document.getElementById("hero-cta-primary").textContent = h.hero_cta_primary;
+  document.getElementById("hero-cta-secondary").textContent = h.hero_cta_secondary;
+
+  document.getElementById("intro-eyebrow").textContent = h.intro_eyebrow;
+  document.getElementById("intro-title").textContent = h.intro_title;
+
+  document.getElementById("offer-cards").innerHTML = h.offer_cards.map(c => `
+    <div class="card">
+      <div class="icon">${c.icon}</div>
+      <h3>${c.title}</h3>
+      <p>${c.text}</p>
+    </div>
+  `).join("");
+
+  document.getElementById("statement-quote").textContent = h.statement_quote;
+  document.getElementById("statement-cite").textContent = "— " + h.statement_cite;
+
+  document.getElementById("events-eyebrow").textContent = h.events_eyebrow;
+  document.getElementById("events-title").textContent = h.events_title;
+  document.getElementById("events-cta").textContent = h.events_cta;
+
+  const upcoming = content.termine.events.slice(0, 3);
+  document.getElementById("events-preview").innerHTML = upcoming.map(e => `
+    <div class="event-card">
+      <div class="event-date">
+        <div class="day">${e.day}</div>
+        <div class="month">${e.month}</div>
+      </div>
+      <div class="event-body">
+        <h3>${e.title}</h3>
+        <div class="event-meta">${e.meta}</div>
+        <p>${e.text}</p>
+      </div>
+    </div>
+  `).join("");
+
+  document.getElementById("cta-title").textContent = h.cta_banner_title;
+  document.getElementById("cta-text").textContent = h.cta_banner_text;
+  document.getElementById("cta-button").textContent = h.cta_banner_button;
+});
+</script>
+</body>
+</html>

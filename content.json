@@ -1,0 +1,188 @@
+{
+  "site": {
+    "name": "Evangelische Jugend Wendelstein",
+    "shortName": "EJ Wendelstein",
+    "tagline": "Glaube. Freundschaft. Abenteuer.",
+    "nav": [
+      { "label": "Start", "href": "index.html" },
+      { "label": "Über uns", "href": "ueber-uns.html" },
+      { "label": "Angebote", "href": "angebote.html" },
+      { "label": "Termine", "href": "termine.html" },
+      { "label": "Aktuelles", "href": "aktuelles.html" },
+      { "label": "Mitmachen", "href": "mitmachen.html" },
+      { "label": "Kontakt", "href": "kontakt.html" }
+    ],
+    "contact": {
+      "address_line1": "Kirchenweg 3",
+      "address_line2": "90530 Wendelstein",
+      "email": "jugend@ej-wendelstein.de",
+      "phone": "09129 / 123456",
+      "instagram": "https://instagram.com/ej_wendelstein",
+      "instagram_handle": "@ej_wendelstein",
+      "office_hours": "Mi 15–17 Uhr im Jugendtreff"
+    }
+  },
+
+  "home": {
+    "hero_eyebrow": "Evangelische Jugend Wendelstein",
+    "hero_title": "Hier ist Platz für dich.",
+    "hero_lead": "Wir sind eine bunte Gemeinschaft von Kindern, Jugendlichen und jungen Erwachsenen in Wendelstein. Bei uns findest du Freundschaft, Glauben zum Anfassen und jede Menge Aktionen – ganz gleich, ob du schon dabei bist oder einfach mal reinschnuppern willst.",
+    "hero_cta_primary": "Nächste Termine",
+    "hero_cta_secondary": "Wer wir sind",
+    "intro_eyebrow": "Was wir machen",
+    "intro_title": "Drei gute Gründe vorbeizuschauen",
+    "offer_cards": [
+      {
+        "icon": "🧭",
+        "title": "Jungschar & Teenkreis",
+        "text": "Spiele, Bibelgeschichten, Gruppenstunden – für alle von der 3. bis zur 8. Klasse."
+      },
+      {
+        "icon": "🔥",
+        "title": "Freizeiten & Camps",
+        "text": "Sommerfreizeit, Zeltlager und Wochenendfreizeiten – raus aus dem Alltag, rein ins Abenteuer."
+      },
+      {
+        "icon": "🤝",
+        "title": "Konfi- & Ehrenamt",
+        "text": "Konfizeit begleiten, Teamer werden, mitgestalten – bei uns kannst du Verantwortung übernehmen."
+      }
+    ],
+    "statement_quote": "Kirche ist da am schönsten, wo Jugendliche mitmachen dürfen.",
+    "statement_cite": "Team der EJ Wendelstein",
+    "events_eyebrow": "Termine",
+    "events_title": "Das ist als Nächstes dran",
+    "events_cta": "Alle Termine ansehen",
+    "cta_banner_title": "Lust reinzuschnuppern?",
+    "cta_banner_text": "Komm einfach vorbei – ohne Anmeldung, ohne Verpflichtung. Wir freuen uns auf dich!",
+    "cta_banner_button": "So findest du uns"
+  },
+
+  "ueberUns": {
+    "eyebrow": "Über uns",
+    "title": "Wer wir sind",
+    "lead": "Die Evangelische Jugend Wendelstein ist der Zusammenschluss der kirchlichen Jugendarbeit unserer Gemeinde – getragen von Ehrenamtlichen, begleitet von Hauptamtlichen und offen für alle, die neugierig sind.",
+    "story_title": "Unsere Geschichte",
+    "story_text": "Seit vielen Jahren treffen sich in Wendelstein Kinder und Jugendliche, um gemeinsam Zeit zu verbringen, Fragen des Glaubens nachzugehen und die Gemeinde aktiv mitzugestalten. Aus kleinen Gruppenstunden ist über die Zeit ein festes Netz an Angeboten für unterschiedliche Altersstufen gewachsen.",
+    "values_eyebrow": "Wofür wir stehen",
+    "values_title": "Unsere Grundhaltung",
+    "values": [
+      { "title": "Offen für alle", "text": "Bei uns ist willkommen, wer Lust hat mitzumachen – unabhängig von Vorwissen oder Kirchenbindung." },
+      { "title": "Auf Augenhöhe", "text": "Jugendliche gestalten mit: Programm, Freizeiten und Aktionen entstehen gemeinsam im Team." },
+      { "title": "Glaube zum Anfassen", "text": "Wir sprechen über Gott, Zweifel und das Leben – ehrlich, altersgerecht und ohne erhobenen Zeigefinger." }
+    ],
+    "team_eyebrow": "Team",
+    "team_title": "Die Menschen hinter der EJ",
+    "team": [
+      { "name": "Anna Beispiel", "role": "Jugendreferentin", "bio": "Hauptamtliche Ansprechpartnerin für alle Gruppen und Freizeiten." },
+      { "name": "Tobias Muster", "role": "Ehrenamtliche Leitung Teenkreis", "bio": "Seit 5 Jahren dabei, verantwortlich für den Teenkreis am Freitag." },
+      { "name": "Lea Platzhalter", "role": "Teamerin Jungschar", "bio": "Bringt frischen Wind und viele Spielideen in die Jungschar-Stunden." },
+      { "name": "Jonas Vorlage", "role": "Freizeitenteam", "bio": "Organisiert gemeinsam mit dem Team die Sommerfreizeit." }
+    ]
+  },
+
+  "angebote": {
+    "eyebrow": "Angebote",
+    "title": "Für jedes Alter das Passende",
+    "lead": "Von der Grundschule bis zum jungen Erwachsenenalter – hier findest du deine Gruppe.",
+    "groups": [
+      {
+        "title": "Jungschar",
+        "tag": "3.–6. Klasse",
+        "time": "Dienstags, 16:30–18:00 Uhr",
+        "place": "Gemeindehaus, Jugendraum",
+        "text": "Spiele, Basteln, Geschichten aus der Bibel und viel Bewegung – der perfekte Start ins Gruppenleben."
+      },
+      {
+        "title": "Teenkreis",
+        "tag": "7.–9. Klasse",
+        "time": "Freitags, 18:00–20:00 Uhr",
+        "place": "Jugendtreff",
+        "text": "Zwischen Kickern, Diskussionen und Aktionstagen – Raum, um Fragen zu stellen und Freunde zu finden."
+      },
+      {
+        "title": "Jugendkreis",
+        "tag": "ab 15 Jahren",
+        "time": "Freitags, 20:00–22:00 Uhr",
+        "place": "Jugendtreff",
+        "text": "Der offene Treff für ältere Jugendliche – mit wechselndem Programm, das gemeinsam geplant wird."
+      },
+      {
+        "title": "Konfi-Zeit",
+        "tag": "8. Klasse",
+        "time": "Nach Absprache mit der Gemeinde",
+        "place": "Gemeindehaus",
+        "text": "Die Konfirmandenzeit wird von unserem Team mit Freizeiten, Aktionstagen und Projekten begleitet."
+      },
+      {
+        "title": "Sommerfreizeit",
+        "tag": "10–15 Jahre",
+        "time": "In den Sommerferien, 1 Woche",
+        "place": "wechselnder Ort",
+        "text": "Der Höhepunkt des Jahres: eine Woche gemeinsam unterwegs, mit Programm, Lagerfeuer und viel Gemeinschaft."
+      },
+      {
+        "title": "Teamer-Ausbildung",
+        "tag": "ab 15 Jahren",
+        "time": "Mehrere Wochenenden im Jahr",
+        "place": "verschiedene Orte",
+        "text": "Du willst selbst Gruppen leiten? In der Schulung lernst du alles, was du dafür brauchst."
+      }
+    ]
+  },
+
+  "termine": {
+    "eyebrow": "Termine",
+    "title": "Was als Nächstes ansteht",
+    "lead": "Alle Termine auf einen Blick. Bei Freizeiten und größeren Aktionen ist meist eine Anmeldung nötig – Infos dazu jeweils direkt beim Termin.",
+    "events": [
+      { "day": "24", "month": "Jul", "title": "Sommerfest der EJ", "meta": "16:00 Uhr · Gemeindegarten", "text": "Grillen, Spiele und Musik zum Ferienstart – mit der ganzen Familie willkommen." },
+      { "day": "02", "month": "Aug", "title": "Sommerfreizeit 2026", "meta": "02.–09.08. · Freizeitheim Alpsee", "text": "Eine Woche Camp-Feeling mit Programm, Ausflügen und Lagerfeuer. Anmeldung erforderlich." },
+      { "day": "12", "month": "Sep", "title": "Teenkreis-Start nach den Ferien", "meta": "18:00 Uhr · Jugendtreff", "text": "Wir starten wieder durch – neue Gesichter sind herzlich willkommen." },
+      { "day": "27", "month": "Sep", "title": "Teamer-Schulungswochenende", "meta": "Fr–So · Jugendhaus Rummelsberg", "text": "Grundlagenschulung für alle, die künftig Gruppen mitleiten möchten." },
+      { "day": "18", "month": "Okt", "title": "Aktionstag Konfis", "meta": "10:00–15:00 Uhr · Gemeindehaus", "text": "Projekttag rund um Glaube und Gemeinschaft für die aktuelle Konfi-Gruppe." }
+    ]
+  },
+
+  "aktuelles": {
+    "eyebrow": "Aktuelles",
+    "title": "Was zuletzt bei uns los war",
+    "lead": "Impressionen, Rückblicke und News aus dem Gruppenalltag.",
+    "posts": [
+      { "date": "15. Juni 2026", "title": "Zeltlager war ein voller Erfolg", "excerpt": "Drei Tage Wald, Lagerfeuer und Gemeinschaft – so war unser Frühjahrs-Zeltlager." },
+      { "date": "02. Mai 2026", "title": "Neues Teamer-Team gestartet", "excerpt": "Fünf neue Teamerinnen und Teamer haben ihre Ausbildung erfolgreich abgeschlossen." },
+      { "date": "20. März 2026", "title": "Spendenaktion für Partnergemeinde", "excerpt": "Beim Ostermarkt kamen über 400 Euro für unser Partnerprojekt zusammen." }
+    ]
+  },
+
+  "mitmachen": {
+    "eyebrow": "Mitmachen",
+    "title": "Werde Teil der EJ",
+    "lead": "Egal ob du regelmäßig zu einer Gruppe kommen, bei einer Freizeit mitfahren oder selbst im Team mitarbeiten möchtest – es gibt viele Wege, dabei zu sein.",
+    "ways": [
+      { "title": "Gruppenstunde besuchen", "text": "Schau einfach unverbindlich bei Jungschar, Teenkreis oder Jugendkreis vorbei – Termine findest du auf der Angebote-Seite." },
+      { "title": "Freizeit mitfahren", "text": "Ob Sommerfreizeit oder Wochenendtrip – Anmeldeformulare gibt's rechtzeitig vor jeder Freizeit hier auf der Website." },
+      { "title": "Teamer werden", "text": "Du bist selbst schon länger dabei und willst Verantwortung übernehmen? Wir bilden dich in unserer Teamerschulung aus." },
+      { "title": "Ehrenamtlich mitarbeiten", "text": "Auch abseits der Gruppenleitung gibt es viel zu tun: Technik, Öffentlichkeitsarbeit, Orga – sag uns, was dich interessiert." }
+    ],
+    "form_title": "Interesse? Schreib uns kurz",
+    "form_intro": "Erzähl uns, wofür du dich interessierst – wir melden uns bei dir."
+  },
+
+  "kontakt": {
+    "eyebrow": "Kontakt",
+    "title": "Wir freuen uns von dir zu hören",
+    "lead": "Ob Frage, Idee oder einfach nur Hallo sagen – melde dich gerne.",
+    "map_note": "Der Jugendtreff liegt direkt neben dem Gemeindehaus."
+  },
+
+  "impressum": {
+    "title": "Impressum",
+    "body": "Evangelisch-Lutherische Kirchengemeinde Wendelstein\nKirchenweg 3\n90530 Wendelstein\n\nVertreten durch: Pfarramt Wendelstein\nTelefon: 09129 / 123456\nE-Mail: info@kirche-wendelstein.de\n\nVerantwortlich für den Inhalt der Jugendseiten (§ 55 Abs. 2 RStV): Anna Beispiel, Jugendreferentin\n\nHinweis: Dies ist ein Platzhaltertext und muss vor Veröffentlichung durch die tatsächlichen, rechtlich geprüften Angaben ersetzt werden."
+  },
+
+  "datenschutz": {
+    "title": "Datenschutzerklärung",
+    "body": "Diese Website nutzt keine Tracking-Cookies. Bei Nutzung des Kontaktformulars werden die eingegebenen Daten ausschließlich zur Bearbeitung Ihrer Anfrage verwendet und nicht an Dritte weitergegeben.\n\nVerantwortliche Stelle im Sinne der Datenschutz-Grundverordnung ist die Evangelisch-Lutherische Kirchengemeinde Wendelstein, Kirchenweg 3, 90530 Wendelstein.\n\nHinweis: Dies ist ein Platzhaltertext und muss vor Veröffentlichung durch eine vollständige, rechtlich geprüfte Datenschutzerklärung ersetzt werden."
+  }
+}

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Angebote — Evangelische Jugend Wendelstein</title>
+<link rel="icon" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Caveat:wght@600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="site-header-mount"></header>
+
+<main>
+  <section class="page-banner bg-paper">
+    <div class="container">
+      <p class="eyebrow" id="eyebrow"></p>
+      <h1><span class="swoosh" id="title"></span></h1>
+      <p class="lead" id="lead"></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="grid grid-3" id="groups"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer-mount"></footer>
+
+<script src="js/main.js"></script>
+<script>
+ejwInit("angebote.html", "", (content) => {
+  const a = content.angebote;
+  document.getElementById("eyebrow").textContent = a.eyebrow;
+  document.getElementById("title").textContent = a.title;
+  document.getElementById("lead").textContent = a.lead;
+  document.getElementById("groups").innerHTML = a.groups.map(g => `
+    <div class="card">
+      <span class="tag">${g.tag}</span>
+      <h3>${g.title}</h3>
+      <p class="event-meta">${g.time} · ${g.place}</p>
+      <p>${g.text}</p>
+    </div>
+  `).join("");
+});
+</script>
+</body>
+</html>

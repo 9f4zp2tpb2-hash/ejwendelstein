@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kontakt — Evangelische Jugend Wendelstein</title>
+<link rel="icon" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Caveat:wght@600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="site-header-mount"></header>
+
+<main>
+  <section class="page-banner bg-paper">
+    <div class="container">
+      <p class="eyebrow" id="eyebrow"></p>
+      <h1><span class="swoosh" id="title"></span></h1>
+      <p class="lead" id="lead"></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container contact-grid">
+      <div>
+        <h2>Adresse &amp; Erreichbarkeit</h2>
+        <div class="info-row"><div class="k">Adresse</div><div class="v" id="c-address"></div></div>
+        <div class="info-row"><div class="k">E-Mail</div><div class="v" id="c-email"></div></div>
+        <div class="info-row"><div class="k">Telefon</div><div class="v" id="c-phone"></div></div>
+        <div class="info-row"><div class="k">Öffnungszeiten</div><div class="v" id="c-hours"></div></div>
+        <div class="info-row"><div class="k">Instagram</div><div class="v" id="c-insta"></div></div>
+        <p style="margin-top:24px;color:var(--brown-soft);" id="map-note"></p>
+      </div>
+      <form class="form-grid" onsubmit="event.preventDefault(); alert('Danke für deine Nachricht! (Platzhalter-Formular ohne Versand-Anbindung.)');">
+        <div>
+          <label for="k-name">Name</label>
+          <input id="k-name" type="text" required>
+        </div>
+        <div>
+          <label for="k-email">E-Mail</label>
+          <input id="k-email" type="email" required>
+        </div>
+        <div>
+          <label for="k-nachricht">Nachricht</label>
+          <textarea id="k-nachricht" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Nachricht senden</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer-mount"></footer>
+
+<script src="js/main.js"></script>
+<script>
+ejwInit("kontakt.html", "", (content) => {
+  const k = content.kontakt;
+  const c = content.site.contact;
+  document.getElementById("eyebrow").textContent = k.eyebrow;
+  document.getElementById("title").textContent = k.title;
+  document.getElementById("lead").textContent = k.lead;
+  document.getElementById("c-address").textContent = c.address_line1 + ", " + c.address_line2;
+  document.getElementById("c-email").textContent = c.email;
+  document.getElementById("c-phone").textContent = c.phone;
+  document.getElementById("c-hours").textContent = c.office_hours;
+  document.getElementById("c-insta").textContent = c.instagram_handle;
+  document.getElementById("map-note").textContent = k.map_note;
+});
+</script>
+</body>
+</html>

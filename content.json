@@ -1,0 +1,130 @@
+{
+  "site": {
+    "name": "Evangelische Jugend Wendelstein",
+    "shortName": "EJ Wendelstein",
+    "tagline": "Glaube. Freundschaft. Abenteuer.",
+    "nav": [
+      {
+        "label": "Start",
+        "href": "index.html"
+      },
+      {
+        "label": "Über uns",
+        "href": "ueber-uns.html"
+      },
+      {
+        "label": "Angebote",
+        "href": "angebote.html"
+      },
+      {
+        "label": "Termine",
+        "href": "termine.html"
+      },
+      {
+        "label": "Aktuelles",
+        "href": "aktuelles.html"
+      },
+      {
+        "label": "Mitmachen",
+        "href": "mitmachen.html"
+      },
+      {
+        "label": "Kontakt",
+        "href": "kontakt.html"
+      }
+    ],
+    "contact": {
+      "address_line1": "Erlenstraße 28",
+      "address_line2": "90530 Wendelstein",
+      "email": "kontakt@ejwendelstein.de",
+      "phone": "-",
+      "instagram": "https://instagram.com/ej.wendelstein",
+      "instagram_handle": "@ej.wendelstein",
+      "office_hours": "-"
+    }
+  },
+  "home": {
+    "hero_eyebrow": "Evangelische Jugend Wendelstein",
+    "hero_title": "Hier ist Platz für dich.",
+    "hero_lead": "Wir sind eine bunte Gemeinschaft von Jugendlichen und jungen Erwachsenen in Wendelstein. Bei uns findest du Freundschaft, Glauben zum Anfassen und jede Menge Aktionen – ganz gleich, ob du schon dabei bist oder einfach mal reinschnuppern willst.",
+    "hero_cta_primary": "Nächste Termine",
+    "hero_cta_secondary": "Wer wir sind",
+    "intro_eyebrow": "Was wir machen",
+    "intro_title": "-",
+    "offer_cards": [],
+    "statement_quote": "Kirche ist da am schönsten, wo Jugendliche mitmachen dürfen.",
+    "statement_cite": "-",
+    "events_eyebrow": "Termine",
+    "events_title": "Das ist als Nächstes dran",
+    "events_cta": "Alle Termine ansehen",
+    "cta_banner_title": "Lust reinzuschauen?",
+    "cta_banner_text": "Komm einfach vorbei – ohne Anmeldung, ohne Verpflichtung. Wir freuen uns auf dich!",
+    "cta_banner_button": "So findest du uns"
+  },
+  "ueberUns": {
+    "eyebrow": "Über uns",
+    "title": "Wer wir sind",
+    "lead": "Die Evangelische Jugend Wendelstein ist der Zusammenschluss der kirchlichen Jugendarbeit unserer Gemeinde – getragen von Ehrenamtlichen, begleitet von Hauptamtlichen und offen für alle, die neugierig sind.",
+    "story_title": "Unsere Geschichte",
+    "story_text": "Seit vielen Jahren treffen sich in Wendelstein junge Menschen, um gemeinsam Zeit zu verbringen, Fragen des Glaubens nachzugehen und die Gemeinde aktiv mitzugestalten. ",
+    "values_eyebrow": "Wofür wir stehen",
+    "values_title": "Unsere Grundhaltung",
+    "values": [
+      {
+        "title": "Offen für alle",
+        "text": "Bei uns ist willkommen, wer Lust hat mitzumachen – unabhängig von Vorwissen."
+      },
+      {
+        "title": "Auf Augenhöhe",
+        "text": "Jugendliche gestalten mit: Programm, Freizeiten und Aktionen entstehen gemeinsam im Team."
+      },
+      {
+        "title": "Glaube zum Anfassen",
+        "text": "Wir sprechen über Gott, Zweifel und das Leben – ehrlich, altersgerecht und ohne erhobenen Zeigefinger."
+      }
+    ],
+    "team_eyebrow": "Team",
+    "team_title": "Die Menschen hinter der EJ",
+    "team": []
+  },
+  "angebote": {
+    "eyebrow": "Angebote",
+    "title": "Für jedes Alter das Passende",
+    "lead": "Von der Konfirmation bis zum jungen Erwachsenenalter.",
+    "groups": []
+  },
+  "termine": {
+    "eyebrow": "Termine",
+    "title": "Was als Nächstes ansteht",
+    "lead": "Alle Termine auf einen Blick. Bei Freizeiten und größeren Aktionen ist meist eine Anmeldung nötig – Infos dazu jeweils direkt beim Termin.",
+    "events": []
+  },
+  "aktuelles": {
+    "eyebrow": "Aktuelles",
+    "title": "Was zuletzt bei uns los war",
+    "lead": "Impressionen, Rückblicke und News aus dem Alltag.",
+    "posts": []
+  },
+  "mitmachen": {
+    "eyebrow": "Mitmachen",
+    "title": "Werde Teil der EJ",
+    "lead": "Schreib uns!",
+    "ways": [],
+    "form_title": "Interesse? Schreib uns kurz",
+    "form_intro": "Erzähl uns, wofür du dich interessierst – wir melden uns bei dir."
+  },
+  "kontakt": {
+    "eyebrow": "Kontakt",
+    "title": "Wir freuen uns von dir zu hören",
+    "lead": "Ob Frage, Idee oder einfach nur Hallo sagen – melde dich gerne.",
+    "map_note": "Unser Jugendraum befindet sich im 1.OG der Arche in GSL!"
+  },
+  "impressum": {
+    "title": "Impressum",
+    "body": "Evangelisch-Lutherische Kirchengemeinde Wendelstein\nErlenstraße 28\n90530 Wendelstein\n\nRechtsträger: Ev.-Luth. Pfarrei Wendelstein / Röthenbach b. St. Wolfgang\n\nTelefon: -\nE-Mail: kontakt@ejwendelstein.de\n\nVerantwortlich für den Inhalt der Jugendseiten (§ 55 Abs. 2 RStV): Social Media Team der EJ Wendelstein\n"
+  },
+  "datenschutz": {
+    "title": "Datenschutzerklärung",
+    "body": "Diese Website nutzt keine Tracking-Cookies. Bei Nutzung des Kontaktformulars werden die eingegebenen Daten ausschließlich zur Bearbeitung Ihrer Anfrage verwendet und nicht an Dritte weitergegeben.\n\nVerantwortliche Stelle im Sinne der Datenschutz-Grundverordnung ist die Evangelisch-Lutherische Pfarrei Wendelstein / Röthenbach b. St. Wolfgang, Kirchenstraße 3, 90530 Wendelstein.\n"
+  }
+}

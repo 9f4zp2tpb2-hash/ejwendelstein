@@ -76,7 +76,11 @@ ejwInit("ueber-uns.html", "", (content) => {
   document.getElementById("team-title").textContent = u.team_title;
   document.getElementById("team").innerHTML = u.team.map(m => `
     <div class="team-member">
-      <div class="photo">${m.name.split(" ").map(n=>n[0]).join("")}</div>
+      <div class="photo">${
+        m.photo
+          ? `<img src="${m.photo}" alt="${m.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+          : m.name.split(" ").map(n=>n[0]).join("")
+      }</div>
       <h3>${m.name}</h3>
       <span class="role">${m.role}</span>
       <p>${m.bio}</p>

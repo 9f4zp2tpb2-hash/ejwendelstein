@@ -29,7 +29,7 @@
         </div>
       </div>
       <div class="hero-art">
-        <img src="images/logo.png" alt="Logo der Evangelischen Jugend Wendelstein">
+        <img id="hero-image" src="images/logo.png" alt="Logo der Evangelischen Jugend Wendelstein">
       </div>
     </div>
   </section>
@@ -44,7 +44,7 @@
     </div>
   </section>
 
-  <section class="statement bg-brown">
+  <section class="statement bg-brown" id="statement-section">
     <div class="container">
       <blockquote>
         „<span id="statement-quote"></span>“
@@ -64,7 +64,7 @@
     </div>
   </section>
 
-  <section class="bg-sand">
+  <section class="bg-sand" id="cta-banner-section">
     <div class="container">
       <div class="cta-banner">
         <div>
@@ -89,6 +89,10 @@ ejwInit("index.html", "", (content) => {
   document.getElementById("hero-lead").textContent = h.hero_lead;
   document.getElementById("hero-cta-primary").textContent = h.hero_cta_primary;
   document.getElementById("hero-cta-secondary").textContent = h.hero_cta_secondary;
+  if (h.hero_image) document.getElementById("hero-image").src = h.hero_image;
+
+  document.getElementById("statement-section").style.display = h.show_statement === false ? "none" : "";
+  document.getElementById("cta-banner-section").style.display = h.show_cta_banner === false ? "none" : "";
 
   document.getElementById("intro-eyebrow").textContent = h.intro_eyebrow;
   document.getElementById("intro-title").textContent = h.intro_title;

@@ -47,3 +47,34 @@
 .mini-btn.primary{ background:var(--orange); border-color:var(--orange); color:#fff; }
 .field-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 @media (max-width:700px){ .field-grid-2{ grid-template-columns:1fr; } }
+
+/* ---------- Login-Bildschirm ---------- */
+.login-gate{
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  background:var(--cream); padding:24px;
+}
+.login-card{
+  background:var(--paper); border:1px solid var(--line); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lift); padding:40px 36px; width:100%; max-width:380px; text-align:center;
+}
+.login-card h1{ font-size:1.4rem; margin:0 0 4px; }
+.login-hint{ color:var(--brown-soft); font-size:.92rem; margin-bottom:24px; }
+.login-card .field-row{ text-align:left; margin-bottom:16px; }
+.login-error{ color:#9A2A0E; font-size:.88rem; margin-top:14px; }
+.login-footnote{ color:var(--brown-soft); font-size:.78rem; margin-top:22px; line-height:1.5; }
+
+/* ---------- Bild-Feld ---------- */
+.image-preview{
+  width:100%; max-width:220px; aspect-ratio:1/1; object-fit:cover;
+  border-radius:var(--radius-sm); border:1px solid var(--line); background:var(--sand);
+  margin-bottom:10px;
+}
+.image-field-row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+
+/* ---------- Checkbox-Zeile ---------- */
+.checkbox-row{ display:flex; align-items:center; gap:10px; }
+.checkbox-row label{ margin:0; }
+.checkbox-row input[type="checkbox"]{ width:20px; height:20px; accent-color:var(--orange); }
+
+/* Color-Input schlanker */
+input[type="color"]{ padding:4px; height:44px; cursor:pointer; }

@@ -13,32 +13,125 @@
 </head>
 <body style="background:var(--cream);">
 
+<!-- ============ LOGIN-BILDSCHIRM ============ -->
+<div id="loginGate" class="login-gate">
+  <form id="loginForm" class="login-card">
+    <img src="../images/logo.png" alt="" style="width:56px;margin-bottom:10px;">
+    <h1>Interner Bereich</h1>
+    <p class="login-hint">Nur für die Website-Pflege der EJ Wendelstein.</p>
+    <div class="field-row">
+      <label for="loginUser">Benutzername (E-Mail)</label>
+      <input id="loginUser" type="email" autocomplete="username" required>
+    </div>
+    <div class="field-row">
+      <label for="loginPass">Passwort</label>
+      <input id="loginPass" type="password" autocomplete="current-password" required>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Anmelden</button>
+    <p id="loginError" class="login-error" hidden>Benutzername oder Passwort ist falsch.</p>
+    <p class="login-footnote">
+      Hinweis: Dieser Login schützt die Bedienoberfläche vor zufälligen Besucher:innen.
+      Er ist kein serverseitiger Schutz — für höchste Sicherheit siehe README.
+    </p>
+  </form>
+</div>
+
+<!-- ============ EDITOR (erst nach Login sichtbar) ============ -->
+<div id="editorRoot" hidden>
+
 <div class="editor-toolbar">
   <strong>🔒 Interner Bereich · EJ Wendelstein</strong>
   <button class="mini-btn primary" id="btnSavePreview">Vorschau in diesem Browser speichern</button>
   <button class="mini-btn" id="btnResetPreview">Vorschau zurücksetzen</button>
   <button class="mini-btn" id="btnDownload">content.json herunterladen</button>
+  <button class="mini-btn" id="btnLogout">Abmelden</button>
   <span class="status" id="statusText">Änderungen noch nicht gespeichert</span>
 </div>
 
 <div class="editor-shell">
   <div class="editor-header">
-    <h1>Website-Inhalte bearbeiten</h1>
+    <h1>Website-Baukasten</h1>
     <a href="../index.html" target="_blank" class="mini-btn">Website in neuem Tab öffnen ↗</a>
   </div>
 
   <div class="editor-warning">
-    <strong>Diese Seite ist nirgends verlinkt</strong> — nur wer die Adresse kennt, findet sie. Das ist kein echter Passwortschutz.
-    Für höhere Sicherheit kannst du deinen Hoster bitten, diesen Ordner zusätzlich mit einem Passwort zu schützen (HTTP-Basic-Auth).<br><br>
-    <strong>So funktioniert das Speichern:</strong> "Vorschau speichern" zeigt dir Änderungen sofort auf der Website — aber nur in <em>diesem</em> Browser.
-    Damit alle Besucher:innen die Änderungen sehen, lade unten die <code>content.json</code> herunter und ersetze die Datei auf deinem Webspace (z. B. per FTP).
+    <strong>Diese Seite ist nirgends verlinkt</strong> und jetzt zusätzlich mit Login geschützt.
+    Für noch mehr Sicherheit siehe den Hinweis in der README.<br><br>
+    <strong>So funktioniert das Speichern:</strong> "Vorschau speichern" zeigt Änderungen sofort auf der Website —
+    aber nur in <em>diesem</em> Browser. Damit alle Besucher:innen sie sehen, lade unten die
+    <code>content.json</code> herunter und ersetze die Datei auf deinem Webspace (z. B. per FTP oder GitHub-Upload).
   </div>
 
   <div class="tabs" id="tabs"></div>
   <div id="panels"></div>
 </div>
 
+</div><!-- /editorRoot -->
+
 <script>
+/* =========================================================
+   LOGIN
+   Es wird kein Klartext-Passwort im Code gespeichert, sondern
+   nur der SHA-256-Hash von "benutzername:passwort". Das ist
+   kein Ersatz für echten Serverschutz (siehe README), aber
+   deutlich besser als ein Passwort im Klartext im Quelltext.
+   ========================================================= */
+const AUTH_HASH = "df8d56109acdee2ea19f79a83e668331732cf1dd83c520c91ba7f593aea533ce";
+const AUTH_SESSION_KEY = "ejw_auth_session";
+const MAX_ATTEMPTS = 5;
+const LOCK_MS = 30000;
+let failedAttempts = 0;
+let lockedUntil = 0;
+
+async function sha256Hex(text){
+  const enc = new TextEncoder().encode(text);
+  const buf = await crypto.subtle.digest("SHA-256", enc);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+}
+
+function showEditor(){
+  document.getElementById("loginGate").style.display = "none";
+  document.getElementById("editorRoot").hidden = false;
+  init();
+}
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const errorEl = document.getElementById("loginError");
+  errorEl.hidden = true;
+
+  if(Date.now() < lockedUntil){
+    errorEl.textContent = "Zu viele Fehlversuche. Bitte kurz warten und erneut versuchen.";
+    errorEl.hidden = false;
+    return;
+  }
+
+  const user = document.getElementById("loginUser").value.trim().toLowerCase();
+  const pass = document.getElementById("loginPass").value;
+  const hash = await sha256Hex(`${user}:${pass}`);
+
+  if(hash === AUTH_HASH){
+    failedAttempts = 0;
+    sessionStorage.setItem(AUTH_SESSION_KEY, "1");
+    showEditor();
+  } else {
+    failedAttempts++;
+    errorEl.textContent = "Benutzername oder Passwort ist falsch.";
+    errorEl.hidden = false;
+    if(failedAttempts >= MAX_ATTEMPTS){
+      lockedUntil = Date.now() + LOCK_MS;
+      errorEl.textContent = "Zu viele Fehlversuche. Bitte 30 Sekunden warten.";
+    }
+  }
+});
+
+if(sessionStorage.getItem(AUTH_SESSION_KEY) === "1"){
+  showEditor();
+}
+
+/* =========================================================
+   EDITOR-LOGIK
+   ========================================================= */
 const STORAGE_KEY = "ejw_content_override";
 let state = null;
 
@@ -54,11 +147,84 @@ function setByPath(obj, path, value){
 }
 
 /* ---------- Feld-Erzeugung ---------- */
+function fileToDataUrl(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 function makeField(labelText, path, opts={}){
   const wrap = document.createElement("div");
   wrap.className = "field-row";
   const label = document.createElement("label");
   label.textContent = labelText;
+  wrap.append(label);
+
+  if(opts.type === "image"){
+    const preview = document.createElement("img");
+    preview.className = "image-preview";
+    const current = getByPath(state, path);
+    preview.src = current || "../images/logo.png";
+    preview.style.opacity = current ? "1" : ".35";
+
+    const row = document.createElement("div");
+    row.className = "image-field-row";
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
+    fileInput.addEventListener("change", async () => {
+      const file = fileInput.files[0];
+      if(!file) return;
+      const dataUrl = await fileToDataUrl(file);
+      setByPath(state, path, dataUrl);
+      preview.src = dataUrl;
+      preview.style.opacity = "1";
+      markDirty();
+    });
+    const clearBtn = document.createElement("button");
+    clearBtn.type = "button";
+    clearBtn.className = "mini-btn danger";
+    clearBtn.textContent = "Zurücksetzen";
+    clearBtn.addEventListener("click", () => {
+      setByPath(state, path, null);
+      preview.src = "../images/logo.png";
+      preview.style.opacity = ".35";
+      markDirty();
+    });
+    row.append(fileInput, clearBtn);
+    wrap.append(preview, row);
+    return wrap;
+  }
+
+  if(opts.type === "checkbox"){
+    wrap.classList.add("checkbox-row");
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = getByPath(state, path) !== false;
+    input.addEventListener("change", () => {
+      setByPath(state, path, input.checked);
+      markDirty();
+    });
+    wrap.innerHTML = "";
+    wrap.append(input, label);
+    return wrap;
+  }
+
+  if(opts.type === "color"){
+    const input = document.createElement("input");
+    input.type = "color";
+    input.value = getByPath(state, path) || "#F2811D";
+    input.addEventListener("input", () => {
+      setByPath(state, path, input.value);
+      markDirty();
+    });
+    wrap.append(input);
+    return wrap;
+  }
+
   let input;
   if(opts.type === "textarea"){
     input = document.createElement("textarea");
@@ -72,7 +238,7 @@ function makeField(labelText, path, opts={}){
     setByPath(state, path, e.target.value);
     markDirty();
   });
-  wrap.append(label, input);
+  wrap.append(input);
   return wrap;
 }
 
@@ -100,6 +266,35 @@ function repeatableList(container, arrayPath, fieldDefs, labelFn, blankItem){
       head.className = "edit-item-head";
       const strong = document.createElement("strong");
       strong.textContent = labelFn(item, idx);
+
+      const btnGroup = document.createElement("div");
+      btnGroup.style.display = "flex";
+      btnGroup.style.gap = "6px";
+
+      const upBtn = document.createElement("button");
+      upBtn.type = "button";
+      upBtn.className = "mini-btn";
+      upBtn.textContent = "↑";
+      upBtn.disabled = idx === 0;
+      upBtn.title = "Nach oben verschieben";
+      upBtn.addEventListener("click", () => {
+        [arr[idx-1], arr[idx]] = [arr[idx], arr[idx-1]];
+        markDirty();
+        draw();
+      });
+
+      const downBtn = document.createElement("button");
+      downBtn.type = "button";
+      downBtn.className = "mini-btn";
+      downBtn.textContent = "↓";
+      downBtn.disabled = idx === arr.length - 1;
+      downBtn.title = "Nach unten verschieben";
+      downBtn.addEventListener("click", () => {
+        [arr[idx+1], arr[idx]] = [arr[idx], arr[idx+1]];
+        markDirty();
+        draw();
+      });
+
       const removeBtn = document.createElement("button");
       removeBtn.type = "button";
       removeBtn.className = "mini-btn danger";
@@ -111,7 +306,9 @@ function repeatableList(container, arrayPath, fieldDefs, labelFn, blankItem){
           draw();
         }
       });
-      head.append(strong, removeBtn);
+
+      btnGroup.append(upBtn, downBtn, removeBtn);
+      head.append(strong, btnGroup);
       card.append(head);
 
       const grid = document.createElement("div");
@@ -146,6 +343,7 @@ function markDirty(){
 
 /* ---------- Tabs ---------- */
 const TABS = [
+  { id: "design", label: "Design & Logo" },
   { id: "website", label: "Website & Kontakt" },
   { id: "home", label: "Startseite" },
   { id: "ueberuns", label: "Über uns" },
@@ -160,6 +358,8 @@ const TABS = [
 function buildTabs(){
   const tabsEl = document.getElementById("tabs");
   const panelsEl = document.getElementById("panels");
+  tabsEl.innerHTML = "";
+  panelsEl.innerHTML = "";
   TABS.forEach((t, i) => {
     const btn = document.createElement("button");
     btn.className = "tab-btn" + (i === 0 ? " active" : "");
@@ -180,6 +380,29 @@ function buildTabs(){
 }
 
 /* ---------- Panel-Inhalte ---------- */
+function buildDesignPanel(panel){
+  const b1 = sectionBlock("Farben");
+  const colorRow = document.createElement("div");
+  colorRow.className = "field-grid-2";
+  colorRow.append(makeField("Hauptfarbe (Orange)", "site.theme.primary", { type: "color" }));
+  colorRow.append(makeField("Hauptfarbe dunkel (Hover)", "site.theme.primaryDeep", { type: "color" }));
+  b1.append(colorRow);
+  panel.append(b1);
+
+  const b2 = sectionBlock("Logo");
+  b2.append(makeField("Logo-Bild (ersetzt das Standard-Logo überall auf der Website)", "site.logoImage", { type: "image" }));
+  panel.append(b2);
+
+  const b3 = sectionBlock("Startseiten-Bild");
+  b3.append(makeField("Bild im Hero-Bereich der Startseite", "home.hero_image", { type: "image" }));
+  panel.append(b3);
+
+  const b4 = sectionBlock("Abschnitte der Startseite ein-/ausblenden");
+  b4.append(makeField("Zitat-Abschnitt anzeigen", "home.show_statement", { type: "checkbox" }));
+  b4.append(makeField("Banner „Lust reinzuschnuppern?“ anzeigen", "home.show_cta_banner", { type: "checkbox" }));
+  panel.append(b4);
+}
+
 function buildWebsitePanel(panel){
   const b1 = sectionBlock("Allgemein");
   b1.append(makeField("Name der Website", "site.name"));
@@ -225,7 +448,7 @@ function buildHomePanel(panel){
   );
   panel.append(b2);
 
-  const b3 = sectionBlock("Zitat-Bereich");
+  const b3 = sectionBlock("Zitat-Bereich (Design-Tab zum Ein-/Ausblenden)");
   b3.append(makeField("Zitat", "home.statement_quote", { type: "textarea", rows: 2 }));
   b3.append(makeField("Quelle", "home.statement_cite"));
   panel.append(b3);
@@ -236,7 +459,7 @@ function buildHomePanel(panel){
   b4.append(makeField("Button-Text", "home.events_cta"));
   panel.append(b4);
 
-  const b5 = sectionBlock("Banner am Seitenende");
+  const b5 = sectionBlock("Banner am Seitenende (Design-Tab zum Ein-/Ausblenden)");
   b5.append(makeField("Überschrift", "home.cta_banner_title"));
   b5.append(makeField("Text", "home.cta_banner_text", { type: "textarea", rows: 2 }));
   b5.append(makeField("Button-Text", "home.cta_banner_button"));
@@ -269,9 +492,14 @@ function buildUeberUnsPanel(panel){
   b4.append(makeField("Eyebrow", "ueberUns.team_eyebrow"));
   b4.append(makeField("Überschrift", "ueberUns.team_title"));
   repeatableList(b4, "ueberUns.team",
-    [ { key: "name", label: "Name" }, { key: "role", label: "Rolle" }, { key: "bio", label: "Kurzbeschreibung", type: "textarea", wide: true } ],
+    [
+      { key: "photo", label: "Foto", type: "image", wide: true },
+      { key: "name", label: "Name" },
+      { key: "role", label: "Rolle" },
+      { key: "bio", label: "Kurzbeschreibung", type: "textarea", wide: true },
+    ],
     (item) => item.name || "Teammitglied",
-    { name: "Neuer Name", role: "", bio: "" }
+    { name: "Neuer Name", role: "", bio: "", photo: null }
   );
   panel.append(b4);
 }
@@ -390,7 +618,7 @@ function buildRechtPanel(panel){
   const hint = document.createElement("p");
   hint.style.color = "var(--brown-soft)";
   hint.style.fontSize = ".9rem";
-  hint.textContent = "Bitte vor Veröffentlichung von einer fachkundigen Person prüfen lassen (Kirchengemeinde/Landeskirche haben oft Muster-Impressen).";
+  hint.textContent = "Bitte vor Veröffentlichung von einer fachkundigen Person prüfen lassen (Kirchengemeinde/Landeskirche haben oft Musterformulierungen).";
   panel.append(hint);
 }
 
@@ -407,12 +635,14 @@ async function init(){
       state = await res.json();
       document.getElementById("statusText").textContent = "Original content.json geladen";
     }
+    if(!state.site.theme) state.site.theme = { primary: "#F2811D", primaryDeep: "#DD6A08" };
   } catch(e){
     alert("content.json konnte nicht geladen werden. Bitte diese Seite über einen lokalen/echten Webserver öffnen, nicht per Doppelklick.");
     console.error(e);
     return;
   }
 
+  buildDesignPanel(document.getElementById("panel-design"));
   buildWebsitePanel(document.getElementById("panel-website"));
   buildHomePanel(document.getElementById("panel-home"));
   buildUeberUnsPanel(document.getElementById("panel-ueberuns"));
@@ -422,32 +652,35 @@ async function init(){
   buildMitmachenPanel(document.getElementById("panel-mitmachen"));
   buildKontaktPanel(document.getElementById("panel-kontakt"));
   buildRechtPanel(document.getElementById("panel-recht"));
+
+  document.getElementById("btnSavePreview").addEventListener("click", () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    document.getElementById("statusText").textContent = "Vorschau gespeichert ✓ — öffne die Website in diesem Browser, um sie zu sehen";
+  });
+
+  document.getElementById("btnResetPreview").addEventListener("click", () => {
+    if(confirm("Lokale Vorschau löschen? Die Website zeigt danach wieder die echte content.json.")){
+      localStorage.removeItem(STORAGE_KEY);
+      document.getElementById("statusText").textContent = "Vorschau zurückgesetzt";
+    }
+  });
+
+  document.getElementById("btnDownload").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "content.json";
+    a.click();
+    URL.revokeObjectURL(url);
+    document.getElementById("statusText").textContent = "content.json heruntergeladen — jetzt auf den Webspace hochladen";
+  });
+
+  document.getElementById("btnLogout").addEventListener("click", () => {
+    sessionStorage.removeItem(AUTH_SESSION_KEY);
+    location.reload();
+  });
 }
-
-document.getElementById("btnSavePreview").addEventListener("click", () => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  document.getElementById("statusText").textContent = "Vorschau gespeichert ✓ — öffne die Website in diesem Browser, um sie zu sehen";
-});
-
-document.getElementById("btnResetPreview").addEventListener("click", () => {
-  if(confirm("Lokale Vorschau löschen? Die Website zeigt danach wieder die echte content.json.")){
-    localStorage.removeItem(STORAGE_KEY);
-    document.getElementById("statusText").textContent = "Vorschau zurückgesetzt";
-  }
-});
-
-document.getElementById("btnDownload").addEventListener("click", () => {
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "content.json";
-  a.click();
-  URL.revokeObjectURL(url);
-  document.getElementById("statusText").textContent = "content.json heruntergeladen — jetzt auf den Webspace hochladen";
-});
-
-init();
 </script>
 </body>
 </html>

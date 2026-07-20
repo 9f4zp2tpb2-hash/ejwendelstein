@@ -24,6 +24,14 @@ async function ejwLoadContent(base) {
   return res.json();
 }
 
+function ejwApplyTheme(content) {
+  const theme = content.site.theme;
+  if (!theme) return;
+  const root = document.documentElement.style;
+  if (theme.primary) root.setProperty("--orange", theme.primary);
+  if (theme.primaryDeep) root.setProperty("--orange-deep", theme.primaryDeep);
+}
+
 function ejwIcon(name) {
   const icons = {
     instagram:
@@ -49,7 +57,7 @@ function ejwRenderHeader(content, base, activeHref) {
   return `
   <div class="container">
     <a class="brand" href="${base}index.html">
-      <img src="${base}images/logo.png" alt="${content.site.name} Logo" width="52" height="52">
+      <img src="${content.site.logoImage || base + "images/logo.png"}" alt="${content.site.name} Logo" width="52" height="52">
       <span class="brand-text">Evangelische<br>Jugend
         <span class="hand">Wendelstein</span>
       </span>
@@ -138,6 +146,7 @@ function ejwSetupNavToggle() {
 async function ejwInit(activeHref, base, renderPage) {
   try {
     const content = await ejwLoadContent(base);
+    ejwApplyTheme(content);
     document.getElementById("site-header-mount").innerHTML = ejwRenderHeader(
       content,
       base,

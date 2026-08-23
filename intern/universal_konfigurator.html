@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Konfigurator</title>
+<style>
+:root{--bg:#0b0d12;--card:#151922;--card2:#1c2130;--text:#f4f6fb;--muted:#9aa3b5;--accent:#5b8cff;--danger:#ff5d6c;--border:#2b3242}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#090b10,#111624);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:1050px;margin:auto;padding:24px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h1{margin:0;font-size:28px}.tabs{display:flex;gap:8px}.tab,.btn{border:1px solid var(--border);background:var(--card);color:var(--text);padding:10px 14px;border-radius:10px;cursor:pointer}.tab.active,.btn.primary{background:var(--accent);border-color:var(--accent)}
+.grid{display:grid;grid-template-columns:1.3fr .9fr;gap:18px;margin-top:18px}.card{background:rgba(21,25,34,.94);border:1px solid var(--border);border-radius:16px;padding:18px}
+.field{padding:14px 0;border-bottom:1px solid var(--border)}.field:last-child{border-bottom:0}.label{display:flex;justify-content:space-between;gap:10px;margin-bottom:9px;font-weight:650}.muted{color:var(--muted);font-size:13px}
+input[type=text],input[type=number],select,textarea{width:100%;background:#0d1119;color:var(--text);border:1px solid var(--border);border-radius:9px;padding:10px}
+input[type=range]{width:100%;accent-color:var(--accent)}.rangeRow{display:grid;grid-template-columns:1fr 90px;gap:10px;align-items:center}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.danger{background:transparent;color:#ff7884;border-color:#63313a}
+.editorItem{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:12px;margin:10px 0}.editorHead{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:18px}.modal.open{display:flex}.modalBox{width:min(680px,100%);max-height:90vh;overflow:auto;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{grid-column:1/-1}.hidden{display:none}
+pre{white-space:pre-wrap;word-break:break-word;background:#0b0e14;border:1px solid var(--border);border-radius:12px;padding:14px;min-height:160px}
+.smallBtns{display:flex;gap:6px}.smallBtns button{padding:7px 9px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><h1>Universal Konfigurator</h1><div class="muted">Eigene Parameter, frei konfigurierbar.</div></div>
+    <div class="tabs">
+      <button class="tab active" id="configTab">Konfigurator</button>
+      <button class="tab" id="editTab">Bearbeiten</button>
+    </div>
+  </div>
+
+  <section id="configView" class="grid">
+    <div class="card">
+      <h2>Einstellungen</h2>
+      <div id="controls"></div>
+      <div class="actions">
+        <button class="btn" id="resetBtn">Zurücksetzen</button>
+        <button class="btn primary" id="copyBtn">Text kopieren</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Textausgabe</h2>
+      <pre id="output"></pre>
+    </div>
+  </section>
+
+  <section id="editView" class="card" style="display:none;margin-top:18px">
+    <div class="top">
+      <div><h2 style="margin:0">Bearbeitungsmodus</h2><div class="muted">Lege selbst fest, welche Einstellungen der Konfigurator enthält.</div></div>
+      <button class="btn primary" id="addBtn">+ Parameter</button>
+    </div>
+    <div id="editor"></div>
+    <div class="actions">
+      <button class="btn" id="exportBtn">Export JSON</button>
+      <button class="btn" id="importBtn">Import JSON</button>
+      <button class="btn danger" id="clearBtn">Alles löschen</button>
+      <input id="fileInput" type="file" accept=".json" class="hidden">
+    </div>
+  </section>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modalBox">
+    <h2 id="modalTitle">Parameter hinzufügen</h2>
+    <div class="formgrid">
+      <div class="full"><label>Name</label><input id="fName" type="text" placeholder="z. B. Lautstärke"></div>
+      <div><label>Typ</label>
+        <select id="fType">
+          <option value="slider">Schieberegler</option>
+          <option value="select">Dropdown</option>
+          <option value="checkbox">Checkbox</option>
+          <option value="text">Textfeld</option>
+          <option value="number">Zahl</option>
+        </select>
+      </div>
+      <div><label>Einheit</label><input id="fUnit" type="text" placeholder="z. B. %"></div>
+      <div id="sliderMin"><label>Minimum</label><input id="fMin" type="number" value="0"></div>
+      <div id="sliderMax"><label>Maximum</label><input id="fMax" type="number" value="100"></div>
+      <div id="sliderStep"><label>Schrittweite</label><input id="fStep" type="number" value="1"></div>
+      <div id="defaultField"><label>Standardwert</label><input id="fDefault" type="text" value=""></div>
+      <div id="optionsField" class="full"><label>Dropdown-Optionen <span class="muted">(eine pro Zeile)</span></label><textarea id="fOptions" rows="5" placeholder="Option A&#10;Option B&#10;Option C"></textarea></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="saveBtn">Speichern</button>
+      <button class="btn" id="cancelBtn">Abbrechen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const KEY="universal-configurator-v1";
+const starter=[
+ {id:crypto.randomUUID(),name:"Beispiel-Regler",type:"slider",unit:"",min:0,max:100,step:1,default:"50"},
+ {id:crypto.randomUUID(),name:"Beispiel-Auswahl",type:"select",unit:"",options:["Option A","Option B","Option C"],default:"Option A"},
+ {id:crypto.randomUUID(),name:"Beispiel-Option",type:"checkbox",unit:"",default:"false"}
+];
+let data=JSON.parse(localStorage.getItem(KEY)||"null")||starter;
+let values={}; let editing=null;
+
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function initValues(){data.forEach(p=>{if(values[p.id]===undefined) values[p.id]=p.default ?? (p.type==="checkbox"?"false":"")})}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+
+function renderControls(){
+ initValues(); const root=document.getElementById("controls"); root.innerHTML="";
+ data.forEach(p=>{
+   const d=document.createElement("div");d.className="field";
+   let control="";
+   if(p.type==="slider") control=`<div class="rangeRow"><input id="v-${p.id}" type="range" min="${esc(p.min)}" max="${esc(p.max)}" step="${esc(p.step)}" value="${esc(values[p.id])}"><input id="n-${p.id}" type="number" min="${esc(p.min)}" max="${esc(p.max)}" step="${esc(p.step)}" value="${esc(values[p.id])}"></div>`;
+   if(p.type==="select") control=`<select id="v-${p.id}">${(p.options||[]).map(o=>`<option ${String(o)===String(values[p.id])?"selected":""}>${esc(o)}</option>`).join("")}</select>`;
+   if(p.type==="checkbox") control=`<label><input id="v-${p.id}" type="checkbox" ${String(values[p.id])==="true"?"checked":""}> Aktiviert</label>`;
+   if(p.type==="text") control=`<input id="v-${p.id}" type="text" value="${esc(values[p.id])}">`;
+   if(p.type==="number") control=`<input id="v-${p.id}" type="number" value="${esc(values[p.id])}">`;
+   d.innerHTML=`<div class="label"><span>${esc(p.name)}</span><span class="muted">${esc(p.unit||"")}</span></div>${control}`;
+   root.appendChild(d);
+   const input=d.querySelector("#v-"+p.id);
+   if(input) input.addEventListener("input",()=>{values[p.id]=p.type==="checkbox"?String(input.checked):input.value;if(p.type==="slider")d.querySelector("#n-"+p.id).value=input.value;renderOutput()});
+   if(p.type==="slider") d.querySelector("#n-"+p.id).addEventListener("input",e=>{values[p.id]=e.target.value;input.value=e.target.value;renderOutput()});
+ });
+ renderOutput();
+}
+function renderOutput(){
+ document.getElementById("output").textContent=data.map(p=>{
+   let v=values[p.id]; if(p.type==="checkbox") v=String(v)==="true"?"Ja":"Nein";
+   return `${p.name}: ${v}${p.unit?" "+p.unit:""}`;
+ }).join("\\n");
+}
+function renderEditor(){
+ const root=document.getElementById("editor");root.innerHTML="";
+ if(!data.length){root.innerHTML='<p class="muted">Noch keine Parameter angelegt.</p>';return}
+ data.forEach((p,i)=>{
+  const d=document.createElement("div");d.className="editorItem";
+  d.innerHTML=`<div class="editorHead"><div><b>${esc(p.name)}</b><div class="muted">${esc(p.type)}${p.unit?" · "+esc(p.unit):""}</div></div>
+  <div class="smallBtns"><button class="btn" data-act="up" data-i="${i}">↑</button><button class="btn" data-act="down" data-i="${i}">↓</button><button class="btn" data-act="edit" data-i="${i}">Bearbeiten</button><button class="btn danger" data-act="del" data-i="${i}">Löschen</button></div></div>`;
+  root.appendChild(d);
+ });
+ root.querySelectorAll("button").forEach(b=>b.onclick=()=>{let i=+b.dataset.i,a=b.dataset.act;
+   if(a==="edit")openModal(data[i]);
+   if(a==="del"&&confirm("Parameter wirklich löschen?")){data.splice(i,1);save();renderAll()}
+   if(a==="up"&&i>0){[data[i-1],data[i]]=[data[i],data[i-1]];save();renderAll()}
+   if(a==="down"&&i<data.length-1){[data[i+1],data[i]]=[data[i],data[i+1]];save();renderAll()}
+ });
+}
+function renderAll(){renderControls();renderEditor()}
+function updateFormVisibility(){
+ const t=document.getElementById("fType").value, slider=t==="slider"||t==="number";
+ ["sliderMin","sliderMax","sliderStep"].forEach(id=>document.getElementById(id).style.display=t==="slider"?"block":"none");
+ document.getElementById("optionsField").style.display=t==="select"?"block":"none";
+ document.getElementById("defaultField").style.display="block";
+}
+function openModal(p=null){
+ editing=p?.id||null;document.getElementById("modalTitle").textContent=p?"Parameter bearbeiten":"Parameter hinzufügen";
+ document.getElementById("fName").value=p?.name||"";document.getElementById("fType").value=p?.type||"slider";document.getElementById("fUnit").value=p?.unit||"";
+ document.getElementById("fMin").value=p?.min??0;document.getElementById("fMax").value=p?.max??100;document.getElementById("fStep").value=p?.step??1;
+ document.getElementById("fDefault").value=p?.default??"";document.getElementById("fOptions").value=(p?.options||[]).join("\\n");
+ updateFormVisibility();document.getElementById("modal").classList.add("open");
+}
+function closeModal(){document.getElementById("modal").classList.remove("open");editing=null}
+document.getElementById("fType").onchange=updateFormVisibility;
+document.getElementById("addBtn").onclick=()=>openModal();
+document.getElementById("cancelBtn").onclick=closeModal;
+document.getElementById("saveBtn").onclick=()=>{
+ const type=document.getElementById("fType").value,name=document.getElementById("fName").value.trim();
+ if(!name){alert("Bitte einen Namen eingeben.");return}
+ let p={id:editing||crypto.randomUUID(),name,type,unit:document.getElementById("fUnit").value.trim(),default:document.getElementById("fDefault").value};
+ if(type==="slider"){p.min=+document.getElementById("fMin").value;p.max=+document.getElementById("fMax").value;p.step=+document.getElementById("fStep").value;p.default=p.default||String(p.min)}
+ if(type==="select"){p.options=document.getElementById("fOptions").value.split("\\n").map(x=>x.trim()).filter(Boolean);if(!p.options.length){alert("Mindestens eine Option anlegen.");return}p.default=p.default||p.options[0]}
+ if(type==="checkbox")p.default=document.getElementById("fDefault").value==="true"?"true":"false";
+ if(editing){const i=data.findIndex(x=>x.id===editing);data[i]=p}else data.push(p);
+ values[p.id]=p.default;save();closeModal();renderAll();
+};
+document.getElementById("resetBtn").onclick=()=>{data.forEach(p=>values[p.id]=p.default??"");renderControls()};
+document.getElementById("copyBtn").onclick=async()=>{await navigator.clipboard.writeText(document.getElementById("output").textContent);alert("Text kopiert.")};
+document.getElementById("clearBtn").onclick=()=>{if(confirm("Alle selbst angelegten Parameter löschen?")){data=[];values={};save();renderAll()}};
+document.getElementById("exportBtn").onclick=()=>{
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="konfiguration.json";a.click();URL.revokeObjectURL(a.href)
+};
+document.getElementById("importBtn").onclick=()=>document.getElementById("fileInput").click();
+document.getElementById("fileInput").onchange=e=>{
+ const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!Array.isArray(x))throw 0;data=x;values={};save();renderAll()}catch{alert("Ungültige JSON-Datei.")}};r.readAsText(f)
+};
+document.getElementById("configTab").onclick=()=>{document.getElementById("configView").style.display="grid";document.getElementById("editView").style.display="none";document.getElementById("configTab").classList.add("active");document.getElementById("editTab").classList.remove("active")};
+document.getElementById("editTab").onclick=()=>{document.getElementById("configView").style.display="none";document.getElementById("editView").style.display="block";document.getElementById("editTab").classList.add("active");document.getElementById("configTab").classList.remove("active")};
+renderAll();
+</script>
+</body>
+</html>

@@ -126,7 +126,7 @@ function renderOutput(){
  document.getElementById("output").textContent=data.map(p=>{
    let v=values[p.id]; if(p.type==="checkbox") v=String(v)==="true"?"Ja":"Nein";
    return `${p.name}: ${v}${p.unit?" "+p.unit:""}`;
- }).join("\\n");
+ }).join("\n");
 }
 function renderEditor(){
  const root=document.getElementById("editor");root.innerHTML="";
@@ -155,7 +155,7 @@ function openModal(p=null){
  editing=p?.id||null;document.getElementById("modalTitle").textContent=p?"Parameter bearbeiten":"Parameter hinzufügen";
  document.getElementById("fName").value=p?.name||"";document.getElementById("fType").value=p?.type||"slider";document.getElementById("fUnit").value=p?.unit||"";
  document.getElementById("fMin").value=p?.min??0;document.getElementById("fMax").value=p?.max??100;document.getElementById("fStep").value=p?.step??1;
- document.getElementById("fDefault").value=p?.default??"";document.getElementById("fOptions").value=(p?.options||[]).join("\\n");
+ document.getElementById("fDefault").value=p?.default??"";document.getElementById("fOptions").value=(p?.options||[]).join("\n");
  updateFormVisibility();document.getElementById("modal").classList.add("open");
 }
 function closeModal(){document.getElementById("modal").classList.remove("open");editing=null}
@@ -167,7 +167,7 @@ document.getElementById("saveBtn").onclick=()=>{
  if(!name){alert("Bitte einen Namen eingeben.");return}
  let p={id:editing||crypto.randomUUID(),name,type,unit:document.getElementById("fUnit").value.trim(),default:document.getElementById("fDefault").value};
  if(type==="slider"){p.min=+document.getElementById("fMin").value;p.max=+document.getElementById("fMax").value;p.step=+document.getElementById("fStep").value;p.default=p.default||String(p.min)}
- if(type==="select"){p.options=document.getElementById("fOptions").value.split("\\n").map(x=>x.trim()).filter(Boolean);if(!p.options.length){alert("Mindestens eine Option anlegen.");return}p.default=p.default||p.options[0]}
+ if(type==="select"){p.options=document.getElementById("fOptions").value.split("\n").map(x=>x.trim()).filter(Boolean);if(!p.options.length){alert("Mindestens eine Option anlegen.");return}p.default=p.default||p.options[0]}
  if(type==="checkbox")p.default=document.getElementById("fDefault").value==="true"?"true":"false";
  if(editing){const i=data.findIndex(x=>x.id===editing);data[i]=p}else data.push(p);
  values[p.id]=p.default;save();closeModal();renderAll();

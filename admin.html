@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adminbereich – 3. Silent Disco EJ Wendelstein</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-900:#14122b;
+    --navy-800:#1d1a3d;
+    --purple-700:#5b1e63;
+    --magenta-600:#93267e;
+    --teal-400:#49d3c4;
+    --teal-500:#2fb8ab;
+    --teal-ink:#0d3a36;
+    --warn-500:#ff6b4a;
+    --warn-bg:rgba(255,107,74,.14);
+    --warn-bd:rgba(255,107,74,.4);
+    --ok-500:#49d3a0;
+    --white:#ffffff;
+    --w-85:rgba(255,255,255,.85);
+    --w-65:rgba(255,255,255,.65);
+    --w-45:rgba(255,255,255,.45);
+    --w-12:rgba(255,255,255,.12);
+    --w-08:rgba(255,255,255,.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;min-height:100%;
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    color:var(--white);
+    background:
+      radial-gradient(ellipse 900px 700px at 100% 0%, rgba(147,38,126,.5), transparent 58%),
+      radial-gradient(ellipse 800px 650px at 0% 100%, rgba(29,26,61,.9), transparent 55%),
+      linear-gradient(160deg,#14122b 0%,#241a3d 42%,#3d1a4d 72%,#5b1e63 100%);
+    background-attachment:fixed;
+    padding:env(safe-area-inset-top,0) env(safe-area-inset-right,0) env(safe-area-inset-bottom,0) env(safe-area-inset-left,0);
+  }
+  .hidden{display:none !important;}
+  input:focus-visible, button:focus-visible, summary:focus-visible{
+    outline:2px solid var(--teal-400);outline-offset:2px;
+  }
+
+  /* --- Login --- */
+  #loginScreen{
+    min-height:100vh;min-height:100dvh;
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  .login-card{
+    width:100%;max-width:360px;
+    background:var(--w-08);border:1px solid var(--w-12);
+    border-radius:18px;padding:32px 26px;
+    backdrop-filter:blur(6px);
+    animation:riseIn .6s ease-out both;
+  }
+  .login-card .eyebrow{
+    font-style:italic;font-weight:500;font-size:.9rem;
+    color:var(--teal-400);margin:0 0 6px;
+  }
+  .login-card h1{
+    font-family:'Archivo Black',system-ui,sans-serif;font-weight:400;
+    text-transform:uppercase;font-size:2rem;line-height:1;margin:0 0 22px;
+    letter-spacing:-.01em;
+  }
+  .login-card label{
+    display:block;font-size:.8rem;font-weight:600;color:var(--w-65);
+    text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;
+  }
+  .login-card input{
+    width:100%;background:rgba(20,18,43,.55);
+    border:1.5px solid var(--w-12);border-radius:11px;
+    padding:14px 15px;font-size:1rem;color:var(--white);font-family:inherit;
+  }
+  .login-card input:focus{outline:none;border-color:var(--teal-400);background:rgba(20,18,43,.8);}
+  .login-card button{
+    margin-top:16px;width:100%;background:var(--teal-400);color:var(--teal-ink);
+    border:none;border-radius:12px;padding:14px 18px;font-weight:700;font-size:1rem;
+    cursor:pointer;font-family:inherit;transition:background .15s ease, transform .12s ease;
+  }
+  .login-card button:hover{background:var(--teal-500);}
+  .login-card button:active{transform:scale(.98);}
+  .login-error{
+    margin:14px 0 0;color:var(--warn-500);font-size:.88rem;font-weight:600;
+  }
+
+  /* --- Admin --- */
+  #adminScreen{max-width:720px;margin:0 auto;padding:28px 18px 60px;}
+  .top{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    gap:16px;margin-bottom:6px;animation:riseIn .6s ease-out both;
+  }
+  .top .eyebrow{
+    font-style:italic;font-weight:500;font-size:.88rem;color:var(--teal-400);margin:0 0 4px;
+  }
+  .top h1{
+    font-family:'Archivo Black',system-ui,sans-serif;font-weight:400;
+    text-transform:uppercase;font-size:clamp(1.8rem,7vw,2.4rem);line-height:1;margin:0;
+    letter-spacing:-.01em;
+  }
+  .logout-link{
+    background:none;border:none;color:var(--w-45);font-size:.82rem;
+    font-family:inherit;cursor:pointer;text-decoration:underline;padding:6px 0;white-space:nowrap;
+  }
+  .logout-link:hover{color:var(--w-85);}
+
+  .toolbar{
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+    margin:20px 0 8px;
+  }
+  .btn{
+    font-family:inherit;font-weight:600;font-size:.88rem;
+    border-radius:10px;padding:10px 14px;cursor:pointer;
+    border:1px solid var(--w-12);background:var(--w-08);color:var(--white);
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .btn:hover{background:var(--w-12);}
+  .btn-refresh{color:var(--teal-400);border-color:rgba(73,211,196,.35);}
+  .btn-reset{color:var(--warn-500);border-color:var(--warn-bd);margin-left:auto;}
+  .btn-reset:hover{background:var(--warn-bg);}
+  .updated{font-size:.78rem;color:var(--w-45);margin:0 0 22px;}
+
+  .storage-banner{
+    background:var(--warn-bg);border:1px solid var(--warn-bd);color:var(--warn-500);
+    border-radius:12px;padding:12px 14px;font-size:.85rem;font-weight:500;
+    margin-bottom:20px;line-height:1.5;
+  }
+
+  section.list-section{margin-top:8px;}
+  h2.section-title{
+    display:flex;align-items:center;gap:8px;
+    font-family:'Inter',sans-serif;font-weight:700;font-size:1rem;
+    text-transform:uppercase;letter-spacing:.04em;color:var(--w-65);
+    margin:26px 0 12px;
+  }
+  h2.section-title .count{
+    background:var(--w-12);color:var(--white);border-radius:20px;
+    padding:2px 9px;font-size:.78rem;font-weight:700;
+  }
+
+  .empty{color:var(--w-45);font-size:.92rem;padding:18px 4px;}
+
+  .card{
+    background:var(--w-08);border:1px solid var(--w-12);border-radius:14px;
+    padding:15px 16px;margin-bottom:10px;
+  }
+  .card-warn{border-color:var(--warn-bd);background:linear-gradient(180deg, var(--warn-bg), var(--w-08) 60%);}
+  .card-main{margin-bottom:8px;}
+  .card-title{margin:0;font-size:1.02rem;font-weight:700;line-height:1.3;}
+  .card-artist{margin:2px 0 0;font-size:.88rem;color:var(--w-65);font-style:italic;}
+  .card-meta{
+    display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+    font-size:.8rem;color:var(--w-45);
+  }
+  .badge{
+    background:var(--teal-400);color:var(--teal-ink);font-weight:700;
+    border-radius:20px;padding:2px 10px;font-size:.76rem;
+  }
+  .warning{
+    margin-top:10px;padding:9px 11px;border-radius:9px;
+    background:rgba(255,107,74,.16);color:var(--warn-500);
+    font-size:.82rem;font-weight:600;line-height:1.45;
+  }
+  .btn-play{
+    margin-top:12px;width:100%;background:var(--teal-400);color:var(--teal-ink);
+    border:none;border-radius:10px;padding:11px 14px;font-weight:700;font-size:.92rem;
+    cursor:pointer;font-family:inherit;transition:background .15s ease, transform .12s ease;
+  }
+  .btn-play:hover{background:var(--teal-500);}
+  .btn-play:active{transform:scale(.985);}
+  .card-warn .btn-play{background:var(--warn-500);color:#2a0e08;}
+  .card-warn .btn-play:hover{background:#ff8264;}
+
+  .card-played{opacity:.72;}
+  .card-played .card-title{text-decoration:line-through;text-decoration-color:var(--w-45);}
+  .btn-undo{
+    background:none;border:none;color:var(--teal-400);font-family:inherit;
+    font-size:.8rem;font-weight:600;cursor:pointer;padding:2px 0;text-decoration:underline;
+  }
+  .btn-undo:hover{color:var(--teal-500);}
+
+  details{margin-top:6px;}
+  summary{
+    cursor:pointer;list-style:none;
+    display:flex;align-items:center;gap:8px;
+  }
+  summary::-webkit-details-marker{display:none;}
+  summary .chev{transition:transform .15s ease;color:var(--w-45);}
+  details[open] summary .chev{transform:rotate(90deg);}
+
+  footer.foot{
+    margin-top:40px;padding-top:18px;border-top:1px solid var(--w-12);
+    font-size:.78rem;color:var(--w-45);
+  }
+
+  @keyframes riseIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+  <div id="loginScreen">
+    <div class="login-card">
+      <p class="eyebrow">3. Silent Disco · EJ Wendelstein</p>
+      <h1>Adminbereich</h1>
+      <label for="pwInput">Passwort</label>
+      <input type="password" id="pwInput" autocomplete="off">
+      <button type="button" id="loginBtn">Einloggen</button>
+      <p class="login-error hidden" id="loginError">Falsches Passwort. Bitte nochmal versuchen.</p>
+    </div>
+  </div>
+
+  <div id="adminScreen" class="hidden">
+    <div class="top">
+      <div>
+        <p class="eyebrow">3. Silent Disco · EJ Wendelstein</p>
+        <h1>Adminbereich</h1>
+      </div>
+      <button type="button" class="logout-link" id="logoutBtn">Abmelden</button>
+    </div>
+
+    <div class="toolbar">
+      <button type="button" class="btn btn-reset" id="resetBtn">🗑️ Alle Wünsche zurücksetzen</button>
+    </div>
+    <p class="updated" id="lastUpdated"></p>
+
+    <section class="list-section">
+      <h2 class="section-title">Offene Wünsche <span class="count" id="openCount">0</span></h2>
+      <div id="openList"></div>
+    </section>
+
+    <section class="list-section">
+      <details id="playedDetails">
+        <summary>
+          <span class="chev">▶</span>
+          <h2 class="section-title" style="margin:0;">Bereits gespielt <span class="count" id="playedCount">0</span></h2>
+        </summary>
+        <div id="playedList" style="margin-top:10px;"></div>
+      </details>
+    </section>
+
+    <footer class="foot">EJ Wendelstein · Arche Großschwarzenlohe — Anzeige aktualisiert sich live</footer>
+  </div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {
+  getFirestore, collection, query, orderBy, onSnapshot, doc, updateDoc,
+  getDocs, writeBatch, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { firebaseConfig, ADMIN_EMAIL, COLLECTION } from "./firebase-config.js";
+
+const SIMILARITY_THRESHOLD = 0.78; // 0..1, höher = strenger (weniger Treffer)
+
+const notConfigured = String(firebaseConfig.apiKey || "").startsWith("DEIN");
+let app = null, auth = null, db = null;
+if (!notConfigured) {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+}
+
+let unsubscribe = null;
+let allItems = [];
+let lastClusters = [];
+
+// ---------- Ähnlichkeits-Erkennung ----------
+function normalize(s) {
+  return (s || "")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/\(.*?\)/g, " ")
+    .replace(/\b(feat|ft|featuring)\.?\b/g, " ")
+    .replace(/[^a-z0-9 ]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function levenshtein(a, b) {
+  const m = a.length, n = b.length;
+  if (!m) return n;
+  if (!n) return m;
+  const dp = [];
+  for (let i = 0; i <= m; i++) { dp.push(new Array(n + 1).fill(0)); dp[i][0] = i; }
+  for (let j = 0; j <= n; j++) dp[0][j] = j;
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      dp[i][j] = a[i - 1] === b[j - 1]
+        ? dp[i - 1][j - 1]
+        : 1 + Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]);
+    }
+  }
+  return dp[m][n];
+}
+
+function strSimilarity(a, b) {
+  const na = normalize(a), nb = normalize(b);
+  if (!na && !nb) return 1;
+  if (!na || !nb) return 0;
+  if (na === nb) return 1;
+  return 1 - levenshtein(na, nb) / Math.max(na.length, nb.length);
+}
+
+function combinedKey(item) {
+  return (normalize(item.title) + " " + normalize(item.artist)).trim();
+}
+
+function isSimilar(a, b) {
+  if (strSimilarity(a.title, b.title) >= SIMILARITY_THRESHOLD) return true;
+  return strSimilarity(combinedKey(a), combinedKey(b)) >= SIMILARITY_THRESHOLD;
+}
+
+function buildClusters(items) {
+  const clusters = [];
+  items.forEach((item) => {
+    const target = clusters.find((c) => isSimilar(item, c.representative));
+    if (target) {
+      target.memberIds.push(item.id);
+      target.count++;
+      if (new Date(item.submittedAt) < new Date(target.earliestTime)) {
+        target.earliestTime = item.submittedAt;
+      }
+    } else {
+      clusters.push({
+        representative: item,
+        memberIds: [item.id],
+        count: 1,
+        earliestTime: item.submittedAt
+      });
+    }
+  });
+  return clusters;
+}
+
+function findPlayedMatch(cluster, playedItems) {
+  let best = null;
+  for (const p of playedItems) {
+    if (isSimilar(cluster.representative, p)) {
+      if (!best || new Date(p.playedAt) > new Date(best.playedAt)) best = p;
+    }
+  }
+  return best;
+}
+
+// ---------- Helpers ----------
+function escapeHtml(str) {
+  return (str || "").replace(/[&<>"']/g, (c) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+  ));
+}
+
+function formatTime(iso) {
+  try {
+    return new Date(iso).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+  } catch (e) { return "–"; }
+}
+
+function tsToIso(v) {
+  return v && typeof v.toDate === "function" ? v.toDate().toISOString() : null;
+}
+
+// ---------- Aktionen ----------
+async function markPlayed(memberIds, warningMatch) {
+  if (warningMatch) {
+    const when = formatTime(warningMatch.playedAt);
+    const label = warningMatch.artist ? (warningMatch.title + " – " + warningMatch.artist) : warningMatch.title;
+    const proceed = window.confirm(
+      "Ähnlicher Song wurde bereits um " + when + " gespielt:\n„" + label + "“\n\nTrotzdem jetzt (wieder) als gespielt markieren?"
+    );
+    if (!proceed) return;
+  }
+  try {
+    await Promise.all(memberIds.map((id) =>
+      updateDoc(doc(db, COLLECTION, id), { played: true, playedAt: serverTimestamp() })
+    ));
+  } catch (e) {
+    console.error(e);
+    window.alert("Das Markieren hat nicht geklappt. Bitte Verbindung prüfen und nochmal versuchen.");
+  }
+}
+
+async function markOpenAgain(id) {
+  try {
+    await updateDoc(doc(db, COLLECTION, id), { played: false, playedAt: null });
+  } catch (e) {
+    console.error(e);
+    window.alert("Das hat nicht geklappt. Bitte nochmal versuchen.");
+  }
+}
+
+async function resetAll() {
+  const ok = window.confirm("Wirklich ALLE Songwünsche unwiderruflich löschen? Das kann nicht rückgängig gemacht werden.");
+  if (!ok) return;
+  try {
+    const snap = await getDocs(collection(db, COLLECTION));
+    const docs = snap.docs;
+    for (let i = 0; i < docs.length; i += 400) {
+      const batch = writeBatch(db);
+      docs.slice(i, i + 400).forEach((d) => batch.delete(d.ref));
+      await batch.commit();
+    }
+  } catch (e) {
+    console.error(e);
+    window.alert("Das Zurücksetzen hat nicht geklappt. Bitte nochmal versuchen.");
+  }
+}
+
+// ---------- Rendern ----------
+function renderOpen(clusters) {
+  lastClusters = clusters;
+  const container = document.getElementById("openList");
+  if (!clusters.length) {
+    container.innerHTML = '<p class="empty">Noch keine offenen Wünsche. Sobald jemand etwas wünscht, taucht es hier auf.</p>';
+    return;
+  }
+  container.innerHTML = clusters.map((c, i) => {
+    const item = c.representative;
+    const title = escapeHtml(item.title);
+    const artist = item.artist ? escapeHtml(item.artist) : "";
+    const countBadge = c.count > 1 ? ('<span class="badge">' + c.count + '× gewünscht</span>') : "";
+    let warn = "";
+    if (c.warningMatch) {
+      const wLabel = escapeHtml(c.warningMatch.title) + (c.warningMatch.artist ? " – " + escapeHtml(c.warningMatch.artist) : "");
+      warn = '<div class="warning">⚠️ Ähnlich zu bereits gespieltem Song „' + wLabel + '“ (gespielt um ' + formatTime(c.warningMatch.playedAt) + ')</div>';
+    }
+    return (
+      '<article class="card' + (c.warningMatch ? ' card-warn' : '') + '">' +
+        '<div class="card-main">' +
+          '<p class="card-title">' + title + '</p>' +
+          (artist ? '<p class="card-artist">' + artist + '</p>' : '') +
+        '</div>' +
+        '<div class="card-meta">' + countBadge + '<span>seit ' + formatTime(c.earliestTime) + '</span></div>' +
+        warn +
+        '<button type="button" class="btn-play" data-cluster-index="' + i + '">' +
+          (c.warningMatch ? '⚠️ Trotzdem als gespielt markieren' : '✅ Als gespielt markieren') +
+        '</button>' +
+      '</article>'
+    );
+  }).join("");
+}
+
+function renderPlayed(played) {
+  const container = document.getElementById("playedList");
+  if (!played.length) {
+    container.innerHTML = '<p class="empty">Noch nichts gespielt.</p>';
+    return;
+  }
+  container.innerHTML = played.map((item) => {
+    const title = escapeHtml(item.title);
+    const artist = item.artist ? escapeHtml(item.artist) : "";
+    return (
+      '<article class="card card-played">' +
+        '<div class="card-main">' +
+          '<p class="card-title">' + title + '</p>' +
+          (artist ? '<p class="card-artist">' + artist + '</p>' : '') +
+        '</div>' +
+        '<div class="card-meta">' +
+          '<span>gespielt um ' + formatTime(item.playedAt) + '</span>' +
+          '<button type="button" class="btn-undo" data-played-id="' + escapeHtml(item.id) + '">↺ Wieder öffnen</button>' +
+        '</div>' +
+      '</article>'
+    );
+  }).join("");
+}
+
+function render() {
+  const open = allItems.filter((x) => !x.played);
+  const played = allItems.filter((x) => x.played)
+    .sort((a, b) => new Date(b.playedAt) - new Date(a.playedAt));
+
+  const clusters = buildClusters(open).map((c) => {
+    c.warningMatch = findPlayedMatch(c, played);
+    return c;
+  }).sort((a, b) => {
+    if (b.count !== a.count) return b.count - a.count;
+    return new Date(a.earliestTime) - new Date(b.earliestTime);
+  });
+
+  renderOpen(clusters);
+  renderPlayed(played);
+  document.getElementById("openCount").textContent = open.length;
+  document.getElementById("playedCount").textContent = played.length;
+}
+
+// ---------- Live-Daten ----------
+function startListening() {
+  if (unsubscribe) return;
+  const q = query(collection(db, COLLECTION), orderBy("submittedAt", "asc"));
+  unsubscribe = onSnapshot(q, (snap) => {
+    allItems = snap.docs.map((d) => {
+      const data = d.data({ serverTimestamps: "estimate" });
+      return {
+        id: d.id,
+        title: data.title || "",
+        artist: data.artist || "",
+        submittedAt: tsToIso(data.submittedAt) || new Date().toISOString(),
+        played: !!data.played,
+        playedAt: tsToIso(data.playedAt)
+      };
+    });
+    render();
+    document.getElementById("lastUpdated").textContent = "Live verbunden · zuletzt aktualisiert " + formatTime(new Date().toISOString());
+  }, (err) => {
+    console.error(err);
+    document.getElementById("lastUpdated").textContent = "Verbindungsproblem: " + (err.code || err.message);
+  });
+}
+
+function stopListening() {
+  if (unsubscribe) { unsubscribe(); unsubscribe = null; }
+  allItems = [];
+}
+
+// ---------- Login ----------
+function showAdmin() {
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("adminScreen").classList.remove("hidden");
+  startListening();
+}
+
+function showLogin() {
+  stopListening();
+  document.getElementById("adminScreen").classList.add("hidden");
+  document.getElementById("loginScreen").classList.remove("hidden");
+}
+
+function showLoginError(msg) {
+  const el = document.getElementById("loginError");
+  el.textContent = msg;
+  el.classList.remove("hidden");
+}
+
+async function attemptLogin() {
+  const input = document.getElementById("pwInput");
+  if (notConfigured) {
+    showLoginError("Firebase ist noch nicht eingerichtet (firebase-config.js ausfüllen).");
+    return;
+  }
+  const btn = document.getElementById("loginBtn");
+  btn.disabled = true;
+  try {
+    await signInWithEmailAndPassword(auth, ADMIN_EMAIL, input.value);
+    document.getElementById("loginError").classList.add("hidden");
+    input.value = "";
+  } catch (e) {
+    const wrong = ["auth/invalid-credential", "auth/wrong-password", "auth/user-not-found", "auth/invalid-email"];
+    showLoginError(wrong.includes(e.code)
+      ? "Falsches Passwort. Bitte nochmal versuchen."
+      : "Anmeldung nicht möglich (" + (e.code || e.message) + ").");
+    input.value = "";
+    input.focus();
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+document.getElementById("loginBtn").addEventListener("click", attemptLogin);
+document.getElementById("pwInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") attemptLogin();
+});
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  if (auth) signOut(auth);
+});
+document.getElementById("resetBtn").addEventListener("click", resetAll);
+
+document.getElementById("openList").addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-cluster-index]");
+  if (!btn) return;
+  const cluster = lastClusters[parseInt(btn.getAttribute("data-cluster-index"), 10)];
+  if (cluster) markPlayed(cluster.memberIds, cluster.warningMatch);
+});
+
+document.getElementById("playedList").addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-played-id]");
+  if (!btn) return;
+  markOpenAgain(btn.getAttribute("data-played-id"));
+});
+
+if (auth) {
+  onAuthStateChanged(auth, (user) => { user ? showAdmin() : showLogin(); });
+}
+</script>
+</body>
+</html>

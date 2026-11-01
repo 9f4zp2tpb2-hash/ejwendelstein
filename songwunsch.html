@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Songwunsch – 3. Silent Disco EJ Wendelstein</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-900:#14122b;
+    --navy-800:#1d1a3d;
+    --purple-700:#5b1e63;
+    --magenta-600:#93267e;
+    --teal-400:#49d3c4;
+    --teal-500:#2fb8ab;
+    --teal-ink:#0d3a36;
+    --warn-500:#ff6b4a;
+    --ok-500:#49d3a0;
+    --white:#ffffff;
+    --w-85:rgba(255,255,255,.85);
+    --w-65:rgba(255,255,255,.65);
+    --w-40:rgba(255,255,255,.4);
+    --w-12:rgba(255,255,255,.12);
+    --w-08:rgba(255,255,255,.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    min-height:100%;
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    color:var(--white);
+    background:
+      radial-gradient(ellipse 900px 700px at 100% 105%, rgba(147,38,126,.55), transparent 60%),
+      radial-gradient(ellipse 800px 650px at -10% -10%, rgba(29,26,61,.9), transparent 55%),
+      linear-gradient(160deg,#14122b 0%,#241a3d 42%,#3d1a4d 72%,#5b1e63 100%);
+    background-attachment:fixed;
+    padding:env(safe-area-inset-top,0) env(safe-area-inset-right,0) env(safe-area-inset-bottom,0) env(safe-area-inset-left,0);
+    overflow-x:hidden;
+  }
+  .decor{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+  .blob{
+    position:absolute;
+    background:var(--teal-400);
+    opacity:.9;
+    filter:blur(.5px);
+  }
+  .blob-a{
+    width:340px;height:260px;top:-70px;right:-90px;
+    clip-path:polygon(10% 20%,32% 4%,58% 10%,80% 0%,100% 24%,96% 50%,100% 78%,78% 96%,52% 88%,28% 100%,6% 82%,0% 52%,14% 30%);
+    transform:rotate(8deg);
+    opacity:.16;
+  }
+  .blob-b{
+    width:300px;height:230px;bottom:-60px;left:-80px;
+    clip-path:polygon(8% 18%,30% 2%,60% 8%,84% 0%,100% 30%,92% 55%,100% 82%,72% 100%,44% 92%,18% 100%,0% 78%,6% 46%);
+    transform:rotate(-6deg);
+    opacity:.14;
+  }
+  .wrap{
+    position:relative;z-index:1;
+    max-width:480px;margin:0 auto;
+    padding:44px 22px 40px;
+    min-height:100vh;min-height:100dvh;
+    display:flex;flex-direction:column;
+  }
+  header{margin-bottom:30px;animation:riseIn .7s ease-out both;}
+  .eyebrow{
+    font-style:italic;font-weight:500;font-size:.95rem;
+    color:var(--teal-400);margin:0 0 6px;letter-spacing:.01em;
+  }
+  h1{
+    font-family:'Archivo Black',system-ui,sans-serif;
+    font-weight:400;
+    font-size:clamp(2.4rem,11vw,3.4rem);
+    line-height:.92;
+    margin:0 0 14px;
+    text-transform:uppercase;
+    letter-spacing:-.01em;
+  }
+  .sub{
+    color:var(--w-65);
+    font-size:1rem;
+    line-height:1.5;
+    margin:0;
+    max-width:34ch;
+  }
+  main{flex:1;animation:riseIn .8s .1s ease-out both;}
+  form{
+    margin-top:28px;
+    background:var(--w-08);
+    border:1px solid var(--w-12);
+    border-radius:18px;
+    padding:22px 20px 24px;
+    backdrop-filter:blur(6px);
+  }
+  .field{margin-bottom:18px;}
+  .field:last-of-type{margin-bottom:0;}
+  label{
+    display:block;font-size:.82rem;font-weight:600;
+    color:var(--w-65);margin-bottom:7px;
+    text-transform:uppercase;letter-spacing:.06em;
+  }
+  label .opt{
+    text-transform:none;font-weight:400;letter-spacing:0;
+    color:var(--w-40);font-size:.78rem;
+  }
+  input[type=text]{
+    width:100%;
+    background:rgba(20,18,43,.55);
+    border:1.5px solid var(--w-12);
+    border-radius:11px;
+    padding:14px 15px;
+    font-size:1.02rem;
+    color:var(--white);
+    font-family:inherit;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  input[type=text]::placeholder{color:var(--w-40);}
+  input[type=text]:focus{
+    outline:none;
+    border-color:var(--teal-400);
+    background:rgba(20,18,43,.8);
+  }
+  input:focus-visible{outline:2px solid var(--teal-400);outline-offset:2px;}
+  button[type=submit]{
+    margin-top:22px;width:100%;
+    background:var(--teal-400);color:var(--teal-ink);
+    border:none;border-radius:12px;
+    padding:16px 18px;
+    font-family:'Inter',sans-serif;
+    font-weight:700;font-size:1.04rem;
+    cursor:pointer;
+    transition:transform .12s ease, background .15s ease, opacity .15s ease;
+  }
+  button[type=submit]:hover{background:var(--teal-500);}
+  button[type=submit]:active{transform:scale(.98);}
+  button[type=submit]:disabled{opacity:.55;cursor:default;transform:none;}
+  button:focus-visible{outline:2px solid var(--white);outline-offset:2px;}
+
+  .feedback{
+    margin-top:16px;padding:14px 16px;border-radius:12px;
+    font-size:.95rem;font-weight:600;
+    background:rgba(73,211,160,.14);border:1px solid rgba(73,211,160,.35);
+    color:var(--ok-500);
+    animation:pop .35s ease-out both;
+  }
+  .feedback.err{
+    background:rgba(255,107,74,.14);border-color:rgba(255,107,74,.4);color:var(--warn-500);
+  }
+  .hidden{display:none !important;}
+
+  .counter{
+    margin:22px 2px 0;font-size:.88rem;color:var(--w-65);
+    min-height:1.2em;
+  }
+  .counter strong{color:var(--teal-400);font-weight:700;}
+  .hint{
+    margin:10px 2px 0;font-size:.82rem;color:var(--w-40);line-height:1.5;
+  }
+  footer{
+    margin-top:36px;padding-top:18px;
+    border-top:1px solid var(--w-12);
+    font-size:.78rem;color:var(--w-40);
+    text-align:left;
+  }
+  @keyframes riseIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes pop{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+  @media (prefers-color-scheme: light){
+    /* Bewusst dunkel gehalten wie das Eventdesign, unabhängig vom Systemmodus */
+  }
+</style>
+</head>
+<body>
+  <div class="decor" aria-hidden="true">
+    <div class="blob blob-a"></div>
+    <div class="blob blob-b"></div>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">3. Silent Disco · EJ Wendelstein</p>
+      <h1>Songwunsch</h1>
+      <p class="sub">Welcher Track darf heute Abend auf deinem Kanal nicht fehlen? Schreib ihn uns – so oft du willst.</p>
+    </header>
+
+    <main>
+      <form id="wishForm" novalidate>
+        <div class="field">
+          <label for="title">Songtitel</label>
+          <input type="text" id="title" name="title" placeholder="z. B. Blinding Lights" maxlength="120" autocomplete="off" required>
+        </div>
+        <div class="field">
+          <label for="artist">Interpret <span class="opt">(optional)</span></label>
+          <input type="text" id="artist" name="artist" placeholder="z. B. The Weeknd" maxlength="120" autocomplete="off">
+        </div>
+        <button type="submit" id="submitBtn">Wunsch abschicken</button>
+      </form>
+
+      <p id="feedback" class="feedback hidden" role="status" aria-live="polite"></p>
+      <p class="hint">Dein Wunsch geht direkt an unser DJ-Team. Du kannst danach sofort den nächsten eingeben – es gibt kein Limit.</p>
+    </main>
+
+    <footer>EJ Wendelstein · Arche Großschwarzenlohe</footer>
+  </div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { firebaseConfig, COLLECTION } from "./firebase-config.js";
+
+const notConfigured = String(firebaseConfig.apiKey || "").startsWith("DEIN");
+let db = null;
+if (!notConfigured) {
+  db = getFirestore(initializeApp(firebaseConfig));
+}
+
+function showFeedback(msg, isError) {
+  const el = document.getElementById("feedback");
+  el.textContent = msg;
+  el.classList.remove("hidden", "err");
+  if (isError) el.classList.add("err");
+}
+
+function withTimeout(promise, ms) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), ms))
+  ]);
+}
+
+document.getElementById("wishForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const titleInput = document.getElementById("title");
+  const artistInput = document.getElementById("artist");
+  const title = titleInput.value.trim();
+  const artist = artistInput.value.trim();
+
+  if (!title) {
+    showFeedback("Bitte gib mindestens einen Songtitel ein.", true);
+    titleInput.focus();
+    return;
+  }
+  if (notConfigured) {
+    showFeedback("Firebase ist noch nicht eingerichtet (firebase-config.js ausfüllen).", true);
+    return;
+  }
+
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  btn.textContent = "Wird gesendet …";
+
+  try {
+    await withTimeout(addDoc(collection(db, COLLECTION), {
+      title: title.slice(0, 120),
+      artist: artist.slice(0, 120),
+      submittedAt: serverTimestamp(),
+      played: false,
+      playedAt: null
+    }), 12000);
+    showFeedback("Danke! Dein Wunsch ist beim DJ-Team gelandet 🎧", false);
+    titleInput.value = "";
+    artistInput.value = "";
+    titleInput.focus();
+  } catch (err) {
+    console.error(err);
+    showFeedback("Das hat leider nicht geklappt. Bitte prüf deine Verbindung und versuch es nochmal.", true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Wunsch abschicken";
+  }
+});
+</script>
+</body>
+</html>

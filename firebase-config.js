@@ -6,12 +6,12 @@
 // ============================================================
 
 export const firebaseConfig = {
-  apiKey: "DEIN_API_KEY",
-  authDomain: "DEIN-PROJEKT.firebaseapp.com",
-  projectId: "DEIN-PROJEKT",
-  storageBucket: "DEIN-PROJEKT.firebasestorage.app",
-  messagingSenderId: "DEINE_SENDER_ID",
-  appId: "DEINE_APP_ID"
+  apiKey: "AIzaSyAhjJEwhqoqtVs40_34gDxpO87VSoWlm6k",
+  authDomain: "silent-disco-songwunsch.firebaseapp.com",
+  projectId: "silent-disco-songwunsch",
+  storageBucket: "silent-disco-songwunsch.firebasestorage.app",
+  messagingSenderId: "782547494115",
+  appId: "1:782547494115:web:ac924a9b207180f3d851d6"
 };
 
 // E-Mail des Admin-Nutzers, den du in Firebase unter

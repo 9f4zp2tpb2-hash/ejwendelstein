@@ -17,7 +17,7 @@ export const firebaseConfig = {
 // E-Mail des Admin-Nutzers, den du in Firebase unter
 // Authentication → Nutzer anlegst. Das Passwort dazu ist das Admin-Passwort.
 // Die Adresse muss nicht real existieren.
-export const ADMIN_EMAIL = "admin@ejwendelstein.de";
+export const ADMIN_EMAIL = "webmaster@ejwendelstein.de";
 
 // Name der Firestore-Sammlung (nur ändern, wenn du auch die Regeln anpasst)
 export const COLLECTION = "wuensche";
